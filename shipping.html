@@ -105,7 +105,6 @@
       wrapper.style.display = "block";
     }
 
-    // --- 3. Render Order Items (MATCHES YOUR CSS STRUCTURE) ---
     function renderSidebar() {
       const cart = JSON.parse(localStorage.getItem("cartItems") || "[]");
       const braceletColor = localStorage.getItem("braceletColor");
@@ -115,7 +114,7 @@
       let subtotal = 0;
       let html = '';
 
-      // Add Bracelet if exists
+      // --- 1. Add Bracelet Link ---
       if (braceletColor) {
         const prices = {
           silver: { Small: 240, Medium: 255, Large: 270, "Extra Large": 285, "Extra Extra Large": 300 },
@@ -127,26 +126,42 @@
         subtotal += bprice;
 
         html += `
-          <div class="order-item">
-            <img src="assets/bracelets/${key}.png" alt="bracelet">
-            <div class="order-name">${braceletColor} Bracelet (${braceletSize})</div>
-            <div class="order-qty">x1</div>
-            <div class="order-price">${fmt(bprice)}</div>
-            <button class="remove-btn" onclick="removeBracelet()">✕</button>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; font-size: 0.9rem;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="width: 50px; height: 50px; background: #eee; border-radius: 8px; overflow: hidden; border: 1px solid #ddd; flex-shrink:0;">
+                <img src="assets/bracelets/${key}.png" style="width:100%; height:100%; object-fit: cover;">
+              </div>
+              <div>
+                <div style="font-weight: 500; color: #333;">${braceletColor} Bracelet (${braceletSize})</div>
+                <div style="font-size: 0.8em; color: #888;">Qty: 1</div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="font-weight: 600; color: #2b0f0f;">${fmt(bprice)}</div>
+              <button class="remove-btn" onclick="removeBracelet()" style="cursor:pointer; background:none; border:none; color:#a00; font-weight:bold;">✕</button>
+            </div>
           </div>`;
       }
 
-      // Add Charms
+      // --- 2. Add Charms ---
       cart.forEach((item, index) => {
         const itemTotal = (item.price || 0) * (item.quantity || 1);
         subtotal += itemTotal;
         html += `
-          <div class="order-item">
-            <img src="${item.img}" alt="charm">
-            <div class="order-name">${item.name}</div>
-            <div class="order-qty">x${item.quantity}</div>
-            <div class="order-price">${fmt(itemTotal)}</div>
-            <button class="remove-btn" onclick="removeItem(${index})">✕</button>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; font-size: 0.9rem;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="width: 50px; height: 50px; background: #eee; border-radius: 8px; overflow: hidden; border: 1px solid #ddd; flex-shrink:0;">
+                <img src="${item.img}" style="width:100%; height:100%; object-fit: cover;">
+              </div>
+              <div>
+                <div style="font-weight: 500; color: #333;">${item.name}</div>
+                <div style="font-size: 0.8em; color: #888;">Qty: ${item.quantity}</div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="font-weight: 600; color: #2b0f0f;">${fmt(itemTotal)}</div>
+              <button class="remove-btn" onclick="removeItem(${index})" style="cursor:pointer; background:none; border:none; color:#a00; font-weight:bold;">✕</button>
+            </div>
           </div>`;
       });
 

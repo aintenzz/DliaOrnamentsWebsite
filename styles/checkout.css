@@ -8,7 +8,8 @@ body {
 
 .checkout-container {
   max-width: 600px;
-  max-height: 800px;
+  /* max-height: 800px;  <-- REMOVED THIS LINE TO FIX ZOOM/CUTOFF ISSUES */
+  height: auto;       /* Added auto height to let it grow */
   margin: 40px auto;
   background: #fff;
   border-radius: 12px;
@@ -50,6 +51,7 @@ input, select {
   border-radius: 6px;
   margin-bottom: 15px;
   font-size: 0.95rem;
+  box-sizing: border-box; /* Ensures padding doesn't widen the input too much */
 }
 
 input:focus, select:focus {
@@ -89,6 +91,8 @@ input:focus, select:focus {
   justify-content: space-between;
   align-items: center;
   margin-top: 25px;
+  flex-wrap: wrap; /* Helps on very small screens/high zoom */
+  gap: 10px;
 }
 
 .next-btn {
@@ -130,8 +134,8 @@ input:focus, select:focus {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: nowrap; /* Prevent wrapping into 2 rows */
-  overflow-x: auto;  /* Allow horizontal scrolling if too long */
+  flex-wrap: nowrap;
+  overflow-x: auto;
   padding: 1.5rem;
   background: #2b0f0f;
   border: 2px solid #bfa76f;
@@ -139,15 +143,14 @@ input:focus, select:focus {
   margin: 2rem auto;
   max-width: 90%;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  gap: 0; /* Make charms look “connected” */
+  gap: 0;
 }
 
-/* Each link or charm image */
 .preview-link, .preview-charm {
   width: 55px;
   height: 55px;
   object-fit: contain;
-  margin-left: -6px; /* overlap slightly to look connected */
+  margin-left: -6px;
   transition: transform 0.2s ease;
   cursor: grab;
 }
@@ -156,13 +159,11 @@ input:focus, select:focus {
   margin-left: 0;
 }
 
-/* On hover */
 .preview-charm:hover {
   transform: scale(1.15);
   z-index: 2;
 }
 
-/* For Gold, Silver, and Mixed bracelets (optional tone backgrounds) */
 .bracelet-gold #bracelet-preview {
   background: linear-gradient(to right, #6b4a0f, #bfa76f);
 }
@@ -185,7 +186,7 @@ input:focus, select:focus {
 .checkbox-row input[type="checkbox"] {
   width: 16px;
   height: 16px;
-  accent-color: #d4af37; /* gold tint */
+  accent-color: #d4af37;
   margin: 0;
 }
 
@@ -194,9 +195,6 @@ input:focus, select:focus {
   color: #333;
   line-height: 1.2;
   cursor: pointer;
-}
-
-.checkbox-row label {
   position: relative;
   top: 2.8px;
 }

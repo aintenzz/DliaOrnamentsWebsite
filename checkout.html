@@ -16,13 +16,12 @@
     <form id="checkout-form" class="checkout-form">
       <section class="contact-section">
         <h2>Contact</h2>
-        <label>Email or Mobile Phone Number</label>
+        <label>Full Name</label>
+        <input type="text" id="fullname" placeholder="Juan Dela Cruz" required>
+        <label>Email Address</label>
         <input type="email" id="email" placeholder="you@example.com" required>
-        <div class="checkbox-row">
-          <input type="checkbox" id="newsletter" checked>
-          <label for="newsletter">Email me with News and Offers</label>
-        </div>
-      </section>
+        
+        </section>
 
       <section class="shipping-section">
         <h2>Shipping Address</h2>
@@ -64,7 +63,7 @@
   </main>
 
   <script>
-    const fields = ["email","country","address","postal","city","region","phone"];
+    const fields = ["fullname", "email","country","address","postal","city","region","phone"];
 
     // Prefill if saved before
     window.addEventListener("DOMContentLoaded", () => {

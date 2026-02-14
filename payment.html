@@ -54,6 +54,7 @@
               <div class="method-title">💵 Cash on Delivery</div>
               <p class="method-desc">Available for <strong>Meetup Only</strong> Around Imus Area</p>
             </div>
+            <div></div> 
           </label>
 
           <label class="method-card">
@@ -62,6 +63,9 @@
               <div class="method-title">📱 GCash</div>
               <p class="method-desc">GCash Account: <strong>09167424976</strong> KY**L RO*E P.</p>
             </div>
+            <button type="button" class="qr-btn" onclick="openQR('gcash', event)">
+              <i class="fas fa-qrcode"></i> View QR
+            </button>
           </label>
 
           <label class="method-card">
@@ -70,6 +74,9 @@
               <div class="method-title">📱 Maya</div>
               <p class="method-desc">Maya Account: <strong>09156006045</strong> Gabrielle Emmanuelle Marion</p>
             </div>
+            <button type="button" class="qr-btn" onclick="openQR('maya', event)">
+              <i class="fas fa-qrcode"></i> View QR
+            </button>
           </label>
 
           <div class="form-actions">
@@ -132,6 +139,10 @@
       const cart = JSON.parse(localStorage.getItem("cartItems") || "[]");
       const braceletColor = localStorage.getItem("braceletColor");
       const braceletSize = localStorage.getItem("braceletSize") || "Medium";
+
+      const shippingRaw = localStorage.getItem("shippingMethod") || "standard";
+      const shippingDisplay = shippingRaw === "same-day" ? "🛵 Same Day Delivery" : "🚚 Standard Shipping";
+
       const now = new Date();
       const manila = new Intl.DateTimeFormat('en-PH', {
         timeZone: 'Asia/Manila', year:'numeric', month:'short', day:'numeric',
@@ -169,7 +180,7 @@
         subtotal += price;
       });
 
-      return { info, items, total: subtotal, datetime: manila };
+      return { info, items, total: subtotal, datetime: manila, shipping: shippingDisplay };
     }
 
     // --- 4. RENDER SIDEBAR ---
@@ -200,9 +211,9 @@
     function showReceiptModal() {
       const r = buildReceipt(); 
       modal.innerHTML = `
-        <div class="modal-content receipt-modal" style="width: 90%; max-width: 440px; text-align: left; max-height: 90vh; overflow: hidden; display: flex; flex-direction: column; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+        <div class="modal-content receipt-modal" style="width: 90%; max-width: 440px; text-align: left; max-height: 90vh; overflow-y: auto; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); position: relative;">
           
-          <div id="capture-receipt" style="background: white; padding: 30px; color: #2b0f0f; font-family: 'Poppins', sans-serif;">
+          <div id="capture-receipt" style="background: white; padding: 30px 30px 10px; color: #2b0f0f; font-family: 'Poppins', sans-serif;">
               <header style="text-align: center; margin-bottom: 25px;">
                 <h2 style="margin: 0; color: #690d0d; font-size: 1.5rem; font-weight: 700;">🎉 Order Confirmed</h2>
                 <div style="font-size: 0.85rem; color: #888; margin-top: 5px;">D’lia Ornaments PH — Official Receipt</div>
@@ -216,6 +227,10 @@
                 <tr>
                   <td style="font-weight: 700; vertical-align: top;">Address:</td>
                   <td style="color: #555; line-height: 1.4;">${r.info.address || ''}</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: 700; vertical-align: top;">Shipping:</td>
+                  <td style="color: #555;">${r.shipping}</td>
                 </tr>
                 <tr>
                   <td style="font-weight: 700; vertical-align: top;">Date:</td>
@@ -234,7 +249,7 @@
                           <img src="${it.img}" style="width:45px; height:45px; border-radius:6px; border:1px solid #eee; background:#f9f9f9; object-fit:contain;">
                           <div>
                              <div style="font-weight: 600; color:#333;">${it.name}</div>
-                             <div style="font-size:0.85em; color:#777;">Quantity: ${it.qty}</div>
+                             <div style="font-size:0.85em; color:#777;">Qty: ${it.qty}</div>
                           </div>
                         </div>
                       </td>
@@ -247,7 +262,7 @@
               </div>
 
               <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 2px solid #690d0d;">
-                <span style="font-weight: 600; font-size: 1.1rem; color: #690d0d;">Total Amount</span>
+                <span style="font-weight: 600; font-size: 1.1rem; color: #690d0d;">Total</span>
                 <span style="font-weight: 800; font-size: 1.4rem; color: #2b0f0f;">${fmt(r.total)}</span>
               </div>
           </div>
@@ -267,7 +282,6 @@
                 <a href="https://www.facebook.com/profile.php?id=100086048326178" target="_blank" style="color: #1877f2;"><i class="fab fa-facebook"></i></a>
                 <a href="https://instagram.com/dliaornamentsph" target="_blank" style="color: #e4405f;"><i class="fab fa-instagram"></i></a>
                 <a href="https://www.tiktok.com/@dliaornamentsph" target="_blank" style="color: #000;"><i class="fab fa-tiktok"></i></a>
-                <a href="mailto:dliaornamentsph@gmail.com" style="color: #ea4335;"><i class="fas fa-envelope"></i></a>
               </div>
             </div>
 
@@ -278,6 +292,7 @@
       
       modal.style.display = 'flex';
 
+      // Download Receipt Logic
       modal.querySelector("#download-receipt-btn").addEventListener("click", async () => {
         const btn = modal.querySelector("#download-receipt-btn");
         const list = modal.querySelector("#receipt-items-list");
@@ -285,6 +300,7 @@
         
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
         
+        // Expand list to full height for screenshot
         const originalMaxHeight = list.style.maxHeight;
         const originalOverflow = list.style.overflowY;
         list.style.maxHeight = "none";
@@ -308,19 +324,21 @@
         } catch (e) {
             alert("Download failed. Please take a screenshot.");
         } finally {
+            // Restore list style
             list.style.maxHeight = originalMaxHeight;
             list.style.overflowY = originalOverflow;
             btn.innerHTML = '<i class="fas fa-download"></i> Download Receipt Image';
         }
       });
 
+      // Close Logic
       modal.querySelector("#close-modal").addEventListener("click", () => {
         localStorage.clear();
         window.location.href = 'index.html';
       });
     }
 
-    // --- 6. Form Submission (Consolidated Logic) ---
+    // --- 6. Form Submission ---
     const paymentForm = document.getElementById("payment-form");
     
     paymentForm.addEventListener("submit", (e) => {
@@ -334,6 +352,7 @@
       const receipt = buildReceipt();
       const paymentMethod = document.querySelector("input[name='payment']:checked").value;
 
+      // HTML Summary for Email
       const orderSummaryString = receipt.items.map(item => `
           <tr>
             <td style="padding: 8px 0; border-bottom: 1px solid #eee; color: #444;">
@@ -346,18 +365,20 @@
       `).join('');
 
       const templateParams = {
+        customer_name: receipt.info.fullname,
         customer_email: receipt.info.email,
         phone_number: receipt.info.phone,
         customer_address: `${receipt.info.address}, ${receipt.info.city}`,
         payment_method: paymentMethod,
+        shipping_method: receipt.shipping,
         order_summary: orderSummaryString,
         total_price: fmt(receipt.total)
       };
 
       // ⚠️ Use your actual IDs from EmailJS
-      const serviceID = 'service_xx3u32';  //v       
-      const merchantTemplate = 'template_merchan'; //t
-      const customerTemplate = 'template_custome'; //r
+      const serviceID = 'service_xx3u32v';      
+      const merchantTemplate = 'template_merchant';
+      const customerTemplate = 'template_customer';
 
       Promise.all([
         emailjs.send(serviceID, merchantTemplate, templateParams),
@@ -377,6 +398,56 @@
       });
     });
   });
+  </script>
+
+  <div id="qr-modal" class="qr-modal-overlay">
+    <div class="qr-modal-content">
+      <h3 class="qr-title" id="qr-title">Scan to Pay</h3>
+      <p class="qr-subtitle" id="qr-subtitle">Use your app to scan this code</p>
+      
+      <img id="qr-image" src="" alt="Payment QR Code" class="qr-image">
+      
+      <button class="close-qr" onclick="closeQR()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // === QR Pop-up Logic ===
+    const qrImages = {
+      gcash: "assets/payment/gcash-qr.jpg", 
+      maya: "assets/payment/maya-qr.jpg"
+    };
+
+    function openQR(type, event) {
+      if(event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      const modal = document.getElementById('qr-modal');
+      const img = document.getElementById('qr-image');
+      const title = document.getElementById('qr-title');
+
+      if (type === 'gcash') {
+        title.textContent = "GCash QR Code";
+        img.src = qrImages.gcash;
+      } else if (type === 'maya') {
+        title.textContent = "Maya QR Code";
+        img.src = qrImages.maya;
+      }
+
+      modal.style.display = 'flex';
+    }
+
+    function closeQR() {
+      document.getElementById('qr-modal').style.display = 'none';
+    }
+
+    document.getElementById('qr-modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeQR();
+      }
+    });
   </script>
 </body>
 </html>
