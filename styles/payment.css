@@ -1,0 +1,355 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #690d0d;
+  color: #2b0f0f;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== Header ===== */
+.payment-header {
+  text-align: center;
+  padding: 2rem 1rem 1rem;
+}
+.brand-title {
+  color: #bfa76f;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+.breadcrumb {
+  color: #fff;
+  font-size: 0.95rem;
+}
+.breadcrumb a {
+  color: #d4af37;
+  text-decoration: none;
+}
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Layout ===== */
+.checkout-layout {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 50px;
+  max-width: 1050px;
+  width: 100%;
+  margin: auto;
+}
+
+/* ===== LEFT SECTION ===== */
+.left-section {
+  flex: 1.2;
+}
+
+/* Info cards */
+.info-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+}
+.info-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+}
+.info-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #2b0f0f;
+}
+.info-details {
+  color: #555;
+  font-size: 0.85rem;
+  grid-column: 1 / 2;
+  margin-top: 2px;
+}
+.info-change {
+  color: #000000;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+.info-change:hover {
+  text-decoration: underline;
+}
+
+/* ===== PAYMENT METHODS ===== */
+h2 {
+  font-size: 1.2rem;
+  color: #fff;
+  margin-bottom: 0.8rem;
+}
+.method-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.8rem;
+  background: #fff;
+  transition: 0.2s ease;
+}
+.method-card:hover {
+  border-color: #bfa76f;
+  background: #fff7e6;
+}
+.method-title {
+  font-weight: 600;
+  color: #2b0f0f;
+  font-size: 0.95rem;
+  margin-bottom: 3px;
+}
+.method-desc {
+  font-size: 0.8rem;
+  color: #666;
+  margin: 0;
+}
+
+/* ===== BUTTONS ===== */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+.back-link {
+  color: #bfa76f;
+  text-decoration: none;
+  font-weight: 500;
+}
+.confirm-btn {
+  background: #bfa76f;
+  border: none;
+  color: white;
+  padding: 10px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.3s;
+}
+.confirm-btn:hover {
+  background: #d4af37;
+}
+
+/* ===== BRACELET PREVIEW ===== */
+.bracelet-preview-section {
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 1050px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.bracelet-title {
+  color: #fff;
+  text-align: left; /* Left-aligned like in shipping.html */
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+}
+
+.bracelet-preview-wrapper {
+  text-align: center; /* Keep image centered */
+  background: none;
+  border: none;
+  padding: 1rem 0;
+  position: relative;
+  z-index: 2;
+}
+
+.bracelet-preview-wrapper img {
+  width: 100%;
+  max-width: 1050px;
+  height: auto;
+  display: inline-block;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/* ===== THANK YOU MESSAGE ===== */
+.thank-you {
+  text-align: center;
+  color: #fff;
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* ===== RIGHT SECTION / ORDER SUMMARY ===== */
+.right-section {
+  flex: 0.8;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+.right-section h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #2b0f0f;
+}
+#order-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.order-item {
+  display: grid;
+  grid-template-columns: 55px 1fr 40px 70px;
+  align-items: center;
+  gap: 10px;
+}
+.order-item img {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+.order-name {
+  font-size: 0.9rem;
+  color: #2b0f0f;
+}
+.order-qty {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #777;
+}
+.order-price {
+  font-weight: 600;
+  color: #000;
+  text-align: right;
+}
+.order-summary {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+}
+.order-summary div {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.4rem 0;
+}
+.total {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #2b0f0f;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  margin-top: 8.5rem;
+  padding: 1.5rem;
+  background-color: #690d0d;
+  color: #d4af37;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+/* ===== Receipt Modal (Fix) ===== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: none; /* Hidden by default */
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-content.receipt-modal {
+  background: #fff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 480px;
+  padding: 2rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  animation: popIn 0.3s ease;
+}
+
+/* Receipt Header */
+.receipt-header {
+  background: linear-gradient(90deg, #6f0e0e, #3a0b0b);
+  color: #fff;
+  border-radius: 10px 10px 0 0;
+  padding: 1rem;
+  margin: -2rem -2rem 1.5rem;
+}
+.receipt-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+.receipt-sub {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* Receipt Body */
+.receipt-body {
+  color: #2b0f0f;
+  font-size: 0.95rem;
+}
+.receipt-body ul {
+  padding: 0;
+  margin: 1rem 0;
+  list-style: disc inside;
+  text-align: left;
+}
+.receipt-body p {
+  margin: 0.3rem 0;
+}
+.receipt-body hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 1rem 0;
+}
+
+/* Close Button */
+#close-modal {
+  margin-top: 1.5rem;
+  background: #bfa76f;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+#close-modal:hover {
+  background: #d4af37;
+}
+
+/* Pop In Animation */
+@keyframes popIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+

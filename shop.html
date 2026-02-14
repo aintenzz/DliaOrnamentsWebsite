@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>D’lia Ornaments PH – Shop</title>
+  <link rel="stylesheet" href="styles/shop.css" />
+  <link rel="icon" href="assets/home/logo.png" />
+</head>
+<body>
+  <!-- 🌀 LOADER -->
+  <div id="loader">
+    <span class="loader-text">Loading your charms...</span>
+  </div>
+
+  <!-- 🏷️ HEADER -->
+  <header class="shop-header">
+    <a href="index.html" class="back-home">← Back to Home</a>
+    <h1>D'lia Ornaments PH</h1>
+    <p class="subtitle">Customize your Bracelet, Add Plain Links and Charms Below.</p>
+  </header>
+
+  <!-- 📏 Size Guide -->
+<div class="size-guide-wrapper">
+  <button id="size-guide-btn" class="size-guide-btn">View Size Chart</button>
+</div>
+
+<!-- 📏 Size Guide Modal -->
+<div id="size-guide-modal" class="size-guide-modal">
+  <div class="size-guide-content">
+    <span class="close-modal">&times;</span>
+    <h2>Bracelet Size Guide</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Bracelet Size</th>
+          <th>Links Count</th>
+          <th>Centimeters</th>
+          <th>Inches</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Small</td><td>16</td><td>14.2–15.2 cm</td><td>5.6–6.0 in</td></tr>
+        <tr><td>Medium</td><td>17</td><td>15.2–16.2 cm</td><td>6.0–6.38 in</td></tr>
+        <tr><td>Large</td><td>18</td><td>16.2–17.1 cm</td><td>6.38–7.12 in</td></tr>
+        <tr><td>XL</td><td>19</td><td>17.1–18.1 cm</td><td>6.73–7.12 in</td></tr>
+        <tr><td>XXL</td><td>20</td><td>18.1–19.2 cm</td><td>7.12–7.55 in</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+  <!-- 🪙 Plain Links Section -->
+  <section id="plain-links" class="charm-section" style="background-color:#690d0d; color:#fff;">
+    <h2>Plain Links</h2>
+    <div class="charm-grid" id="plain-links-grid">
+      <!-- JS will inject Silver / Gold / Mixed link cards here -->
+    </div>
+  </section>
+
+  <!-- 🔽 FILTER BAR -->
+  <section id="filter-bar">
+    <div class="filter-controls">
+      <label for="series-filter" class="filter-label">Filter by Series:</label>
+      <select id="series-filter" class="elegant-dropdown">
+        <option value="all">All</option>
+        <option value="gold-grid">Gold Series Charms</option>
+        <option value="silver-grid">Silver with Black Series Charms</option>
+        <option value="pink-grid">Pink Series Charms</option>
+        <option value="letter-grid">Gold Letter Series Charms</option>
+        <option value="animal-grid">Animal Series Charms</option>
+        <option value="floral-grid">Floral Series Charms</option>
+        <option value="gem-grid">Gem Series Charms</option>
+        <option value="quotes-grid">Quotes Series Charms</option>
+        <option value="silvergold-grid">Silver/Gold Mix Series Charms</option>
+        <option value="silverseries-grid">Silver Series Charms</option>
+        <option value="silverbasic-grid">Silver Basic Series Charms</option>
+        <option value="silverfood-grid">Silver Food Series Charms</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- 💎 MAIN SHOP CONTENT -->
+  <main id="shop-content" class="hidden">
+    <!-- Charm series grids dynamically loaded here by JS -->
+    <section id="gold-grid" class="charm-section"><h2>Gold Series Charms</h2><div class="charm-grid"></div></section>
+    <section id="silver-grid" class="charm-section"><h2>Silver with Black Series Charms</h2><div class="charm-grid"></div></section>
+    <section id="pink-grid" class="charm-section"><h2>Pink Series Charms</h2><div class="charm-grid"></div></section>
+    <section id="letter-grid" class="charm-section"><h2>Gold Letter Series Charms</h2><div class="charm-grid"></div></section>
+    <section id="animal-grid" class="charm-section"><h2>Animal Series Charms</h2><div class="charm-grid"></div></section>
+    <section id="floral-grid" class="charm-section"><h2>Floral Series Charms</h2><div class="charm-grid"></div></section>
+    <section id="gem-grid" class="charm-section"><h2>Gem Series Charms</h2><div class="charm-grid"></div></section>
+    <section id="quotes-grid" class="charm-section"><h2>Quotes Series Charms</h2><div class="charm-grid"></div></section>
+    <section id="silvergold-grid" class="charm-section"><h2>Silver/Gold Mix Series Charms</h2><div class="charm-grid"></div></section>
+    <section id="silverseries-grid" class="charm-section"><h2>Silver Series Charms</h2><div class="charm-grid"></div></section>
+    <section id="silverbasic-grid" class="charm-section"><h2>Silver Basic Series Charms</h2><div class="charm-grid"></div></section>
+    <section id="silverfood-grid" class="charm-section"><h2>Silver Food Series Charms</h2><div class="charm-grid"></div></section>
+  </main>
+
+  <!-- 🛒 CART DRAWER -->
+  <button id="cart-btn"><span class="cart-count">0</span>🛒</button>
+  <div id="cart-drawer">
+    <h3>Your Cart</h3>
+    <div id="cart-items"></div>
+    <div id="cart-total">Total: ₱0.00</div>
+    <button id="checkout-btn">Proceed to Checkout</button>
+  </div>
+  <div id="cart-overlay"></div>
+
+  <!-- ⚙️ JS -->
+  <script src="scripts/shop.js"></script>
+
+  <footer class="footer">
+    <p>© 2025 D'lia Ornaments PH | All Rights Reserved.</p>
+  </footer>
+
+</body>
+</html>

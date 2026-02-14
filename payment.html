@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>D’lia Ornaments PH | Payment</title>
+  <link rel="stylesheet" href="styles/payment.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="icon" href="assets/home/logo.png" />
+</head>
+
+<body>
+  <main class="payment-container">
+    <header class="payment-header">
+      <h1 class="brand-title">D’lia Ornaments PH</h1>
+      <nav class="breadcrumb">
+        <a href="checkout.html">Information</a> › 
+        <a href="shipping.html">Shipping</a> › 
+        <strong>Payment</strong>
+      </nav>
+    </header>
+
+    <div class="checkout-layout">
+      <section class="left-section">
+        <div class="info-cards">
+          <div class="info-card">
+            <div class="info-label">📞 Contact</div>
+            <div class="info-details" id="contact-email">your@email.com</div>
+            <a href="checkout.html" class="info-change">Change</a>
+          </div>
+
+          <div class="info-card">
+            <div class="info-label">📍 Ship to</div>
+            <div class="info-details" id="shipping-address">Your address here</div>
+            <a href="shipping.html" class="info-change">Change</a>
+          </div>
+        </div>
+
+        <h2>Payment Method</h2>
+        <form id="payment-form">
+          <label class="method-card">
+            <input type="radio" name="payment" value="cod" checked>
+            <div class="method-info">
+              <div class="method-title">💵 Cash on Delivery</div>
+              <p class="method-desc">Available for <strong>Meetup Only</strong> Around Imus Area</p>
+            </div>
+          </label>
+
+          <label class="method-card">
+            <input type="radio" name="payment" value="gcash">
+            <div class="method-info">
+              <div class="method-title">📱 GCash</div>
+              <p class="method-desc">GCash Account: <strong>09167424976</strong> KY**L RO*E P.</p>
+            </div>
+          </label>
+
+          <label class="method-card">
+            <input type="radio" name="payment" value="maya">
+            <div class="method-info">
+              <div class="method-title">📱 Maya</div>
+              <p class="method-desc">Maya Account: <strong>09156006045</strong> Gabrielle Emmanuelle Marion</p>
+            </div>
+          </label>
+
+          <div class="form-actions">
+            <a href="shipping.html" class="back-link">← Return to Shipping</a>
+            <button type="submit" class="confirm-btn">Confirm Payment</button>
+          </div>
+        </form>
+      </section>
+
+      <aside class="right-section">
+        <h3>Your Order</h3>
+        <div id="order-items"></div>
+        <div class="order-summary">
+          <div>Subtotal: <span id="subtotal">₱0.00</span></div>
+          <div>Shipping: <span id="shipping-fee">May vary</span></div>
+          <hr />
+          <div class="total">Total: <span id="total">₱0.00</span></div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- === Bracelet Preview Section (same as shipping.html) === -->
+    <section class="bracelet-preview-section">
+      <h2 class="bracelet-preview-section">
+        Your Customized Bracelet Preview
+      </h2>
+      <div class="bracelet-preview-wrapper" id="bracelet-preview-wrapper" style="display:none;">
+        <img id="bracelet-preview-img" alt="Bracelet Preview">
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 D'lia Ornaments PH | All Rights Reserved.</p>
+  </footer>
+
+  <!-- Receipt modal -->
+  <div id="receipt-modal" class="modal-overlay" style="display:none;">
+    <div class="modal-content receipt-modal"></div>
+  </div>
+
+  <script src="scripts/payment.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Load info from localStorage
+      const info = JSON.parse(localStorage.getItem("checkoutInfo") || "{}");
+      document.getElementById("contact-email").textContent = info.email || "your@email.com";
+      document.getElementById("shipping-address").textContent =
+        `${info.address || ""}, ${info.postal || ""} ${info.city || ""}, ${info.region || ""}, ${info.country || ""}`;
+
+      // Bracelet preview
+      const previewUrl = localStorage.getItem("braceletPreviewImage");
+      const wrapper = document.getElementById("bracelet-preview-wrapper");
+      const img = document.getElementById("bracelet-preview-img");
+      if (previewUrl) {
+        img.src = previewUrl;
+        wrapper.style.display = "block";
+      }
+
+      // Modal setup
+      const modal = document.getElementById("receipt-modal");
+      const fmt = n => "₱" + n.toFixed(2);
+
+      function buildReceipt() {
+        const cart = JSON.parse(localStorage.getItem("cartItems") || "[]");
+        const braceletColor = localStorage.getItem("braceletColor");
+        const braceletSize = localStorage.getItem("braceletSize") || "Medium";
+        const now = new Date();
+        const manila = new Intl.DateTimeFormat('en-PH', {
+          timeZone: 'Asia/Manila', year:'numeric', month:'short', day:'numeric',
+          hour:'2-digit', minute:'2-digit', second:'2-digit'
+        }).format(now);
+
+        const items = [];
+        let subtotal = 0;
+
+        if (braceletColor) {
+          const prices = {
+            silver: { Small: 240, Medium: 255, Large: 270, "Extra Large": 285, "Extra Extra Large": 300 },
+            gold: { Small: 400, Medium: 425, Large: 450, "Extra Large": 475, "Extra Extra Large": 500 },
+            mixed: { Small: 480, Medium: 510, Large: 540, "Extra Large": 570, "Extra Extra Large": 600 }
+          };
+          let key = "silver";
+          const rc = braceletColor.toLowerCase();
+          if (rc.includes("gold") && !rc.includes("mixed")) key = "gold";
+          else if (rc.includes("mixed")) key = "mixed";
+          const bprice = prices[key]?.[braceletSize] || 0;
+          items.push({ name: `${braceletColor.charAt(0).toUpperCase() + braceletColor.slice(1)} Bracelet (${braceletSize})`, qty: 1, price: bprice });
+          subtotal += bprice;
+        }
+
+        cart.forEach(i => {
+          const qty = i.quantity || 1;
+          const price = (i.price || 0) * qty;
+          items.push({ name: i.name, qty, price });
+          subtotal += price;
+        });
+
+        return { info, items, total: subtotal, datetime: manila };
+      }
+
+      function showReceiptModal() {
+        const r = buildReceipt();
+        modal.innerHTML = `
+          <div class="modal-content receipt-modal">
+            <header class="receipt-header">
+              <h2>🎉 Order Confirmed</h2>
+              <div class="receipt-sub">Receipt / Order Summary</div>
+            </header>
+            <section class="receipt-body">
+              <p><strong>Email:</strong> ${r.info.email || '—'}</p>
+              <p><strong>Address:</strong> ${r.info.address || ''} ${r.info.city || ''}</p>
+              <p><strong>Date:</strong> ${r.datetime}</p>
+              <hr/>
+              <ul>
+                ${r.items.map(it => `<li>${it.name} ×${it.qty} — ${fmt(it.price)}</li>`).join('')}
+              </ul>
+              <hr/>
+              <p><strong>Total:</strong> ${fmt(r.total)}</p>
+              <p>shipping fee may vary</p>
+              <div style="margin-top:1.5rem; text-align:center; color:#333;">
+                <p>Message us on <strong>Facebook</strong>, <strong>Instagram</strong>, or <strong>TikTok</strong> and send:</p>
+                <ul style="list-style:disc; text-align:left; display:inline-block;">
+                  <li>Your order receipt</li>
+                  <li>Your bracelet preview image</li>
+                  <li>Proof of payment (GCash or Maya)</li>
+                </ul>
+              </div>
+              <button id="close-modal" class="confirm-btn" style="margin-top:1.5rem;">Close & Return Home</button>
+            </section>
+          </div>
+        `;
+        modal.style.display = 'flex';
+        modal.style.justifyContent = 'center';
+        modal.style.alignItems = 'center';
+
+        modal.querySelector("#close-modal").addEventListener("click", () => {
+          localStorage.clear();
+          window.location.href = 'index.html';
+        });
+      }
+
+      const paymentForm = document.getElementById('payment-form');
+      paymentForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        showReceiptModal();
+      });
+    });
+  </script>
+</body>
+</html>

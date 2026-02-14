@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D’lia Ornaments PH | Shipping</title>
+  <link rel="stylesheet" href="styles/shipping.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/home/logo.png" />
+</head>
+
+<body>
+  <main class="shipping-container">
+    <!-- ===== Header ===== -->
+    <header class="shipping-header">
+      <h1 class="brand-title">D’lia Ornaments PH</h1>
+      <nav class="breadcrumb">
+        <a href="checkout.html">Information</a> › <strong>Shipping</strong> › Payment
+      </nav>
+    </header>
+
+    <!-- ===== Layout Wrapper ===== -->
+    <div class="checkout-layout">
+      <!-- ===== Left Section ===== -->
+      <section class="left-section">
+        <!-- Contact & Address cards -->
+        <div class="info-cards">
+          <div class="info-card">
+            <div class="info-label">📞 Contact</div>
+            <div class="info-details" id="contact-email">your@email.com</div>
+            <a href="checkout.html" class="info-change">Change</a>
+          </div>
+
+          <div class="info-card">
+            <div class="info-label">📍 Ship to</div>
+            <div class="info-details" id="shipping-address">Your address here</div>
+            <a href="checkout.html" class="info-change">Change</a>
+          </div>
+        </div>
+
+        <!-- ===== Shipping Methods ===== -->
+        <h2>Shipping Method</h2>
+        <form id="shipping-form">
+          <!-- Same-day delivery -->
+          <label class="method-card">
+            <input type="radio" name="shipping" value="same-day" checked>
+            <div class="method-info">
+              <div class="method-title">🚚 Same Day Delivery</div>
+              <p class="method-desc">Schedule and Fees Vary, Booked via Lalamove/Grab. Cut-off 4PM.</p>
+            </div>
+          </label>
+
+          <!-- Standard shipping -->
+          <label class="method-card">
+            <input type="radio" name="shipping" value="standard">
+            <div class="method-info">
+              <div class="method-title">🚚 Standard Shipping</div>
+              <p class="method-desc">Available Nationwide, Fees Vary</p>
+            </div>
+          </label>
+
+          <!-- ===== Buttons ===== -->
+          <div class="form-actions">
+            <a href="checkout.html" class="back-link">← Return to Information</a>
+            <button type="submit" class="next-btn">Continue to Payment</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- ===== Right Section / Order Summary ===== -->
+      <aside class="right-section">
+        <h3>Your Order</h3>
+        <div id="order-items"></div>
+        <div class="order-summary">
+          <div>Subtotal: <span id="subtotal">₱0.00</span></div>
+          <hr>
+          <div class="total">Total: <span id="total">₱0.00</span></div>
+        </div>
+      </aside>
+    </div> <!-- closes .checkout-layout -->
+
+    <!-- === Bracelet Preview Section (Moved Below Layout) === -->
+    <section class="bracelet-preview-section">
+      <h2 style="margin-top: 2rem; color: #fff; ">
+        Your Customized Bracelet Preview
+      </h2>
+      <div class="bracelet-preview-wrapper" id="bracelet-preview-wrapper" style="display:none;">
+        <img id="bracelet-preview-image" alt="Bracelet Preview">
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== Script Section ===== -->
+<!-- ===== Script Section ===== -->
+<script>
+  // Load info from localStorage
+  const info = JSON.parse(localStorage.getItem("checkoutInfo") || "{}");
+  document.getElementById("contact-email").textContent = info.email || "your@email.com";
+  document.getElementById("shipping-address").textContent =
+    `${info.address || ""}, ${info.postal || ""} ${info.city || ""}, ${info.region || ""}, ${info.country || ""}`;
+
+  // DOM elements
+  const orderItemsEl = document.getElementById("order-items");
+  const subtotalEl = document.getElementById("subtotal");
+  const totalEl = document.getElementById("total");
+  const shippingFeeEl = document.getElementById("shipping-fee");
+
+  function formatPrice(p) { return "₱" + p.toFixed(2); }
+
+  // === Render Cart and Bracelet ===
+  function renderCart() {
+    const cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+    let subtotal = 0;
+    orderItemsEl.innerHTML = "";
+
+    // Bracelet pricing logic
+    const braceletColor = (localStorage.getItem("braceletColor") || "silver").toLowerCase();
+    const braceletSize = localStorage.getItem("braceletSize") || "Medium";
+    const prices = {
+      silver: { Small: 240, Medium: 255, Large: 270, "Extra Large": 285, "Extra Extra Large": 300 },
+      gold: { Small: 400, Medium: 425, Large: 450, "Extra Large": 475, "Extra Extra Large": 500 },
+      mixed: { Small: 480, Medium: 510, Large: 540, "Extra Large": 570, "Extra Extra Large": 600 }
+    };
+
+    let key = "silver";
+    if (braceletColor.includes("gold") && !braceletColor.includes("mixed")) key = "gold";
+    else if (braceletColor.includes("mixed")) key = "mixed";
+    const braceletPrice = prices[key]?.[braceletSize] || 0;
+
+    // Only show bracelet if it exists in localStorage
+    if (localStorage.getItem("braceletColor")) {
+      const braceletDiv = document.createElement("div");
+      braceletDiv.className = "order-item";
+      braceletDiv.innerHTML = `
+        <img src="assets/bracelets/${key}.png" alt="${braceletColor} bracelet">
+        <div class="order-name">${braceletColor.charAt(0).toUpperCase() + braceletColor.slice(1)} Bracelet (${braceletSize})</div>
+        <div class="order-qty">×1</div>
+        <div class="order-price">₱${braceletPrice.toFixed(2)}</div>
+        <button class="remove-btn" data-type="bracelet">✕</button>`;
+      orderItemsEl.appendChild(braceletDiv);
+      subtotal += braceletPrice;
+    }
+
+    // Charms
+    cart.forEach((item, index) => {
+      const lineTotal = item.price * item.quantity;
+      subtotal += lineTotal;
+
+      const div = document.createElement("div");
+      div.className = "order-item";
+      div.innerHTML = `
+        <img src="${item.img}">
+        <div class="order-name">${item.name}</div>
+        <div class="order-qty">×${item.quantity}</div>
+        <div class="order-price">₱${lineTotal.toFixed(2)}</div>
+        <button class="remove-btn" data-index="${index}">✕</button>`;
+      orderItemsEl.appendChild(div);
+    });
+
+    subtotalEl.textContent = `₱${subtotal.toFixed(2)}`;
+    totalEl.textContent = `₱${subtotal.toFixed(2)}`;
+  }
+
+  // === Remove button logic ===
+  orderItemsEl.addEventListener("click", e => {
+    if (e.target.classList.contains("remove-btn")) {
+      const type = e.target.dataset.type;
+      if (type === "bracelet") {
+        localStorage.removeItem("braceletColor");
+        localStorage.removeItem("braceletSize");
+        localStorage.removeItem("braceletPrice");
+      } else {
+        const idx = parseInt(e.target.dataset.index);
+        if (!isNaN(idx)) {
+          const cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+          cart.splice(idx, 1);
+          localStorage.setItem("cartItems", JSON.stringify(cart));
+        }
+      }
+      renderCart();
+    }
+  });
+
+  // === Shipping toggle ===
+  document.querySelectorAll("input[name='shipping']").forEach(r => {
+    r.addEventListener("change", () => {
+      const sub = parseFloat(subtotalEl.textContent.replace(/[₱,]/g, "")) || 0;
+      if (r.value === "standard") {
+        shippingFeeEl.textContent = "₱250.00";
+        totalEl.textContent = formatPrice(sub + 250);
+      } else {
+        shippingFeeEl.textContent = "may vary";
+        totalEl.textContent = formatPrice(sub);
+      }
+    });
+  });
+
+  // === Bracelet Preview Display ===
+  const previewUrl = localStorage.getItem("braceletPreviewImage");
+  const previewWrapper = document.getElementById("bracelet-preview-wrapper");
+  const previewImg = document.getElementById("bracelet-preview-image");
+
+  if (previewUrl) {
+    previewImg.src = previewUrl;
+    previewWrapper.style.display = "block";
+  }
+
+  // === Continue to payment ===
+  document.getElementById("shipping-form").addEventListener("submit", e => {
+    e.preventDefault();
+    const shippingMethod = document.querySelector("input[name='shipping']:checked")?.value || "same-day";
+    const shippingFee = shippingFeeEl ? shippingFeeEl.textContent : "may vary";
+    localStorage.setItem("shippingMethod", shippingMethod);
+    localStorage.setItem("shippingFee", shippingFee);
+    window.location.href = "payment.html";
+  });
+
+  // Initialize render
+  renderCart();
+</script>
+
+<footer class="footer">
+  <p>© 2025 D'lia Ornaments PH | All Rights Reserved.</p>
+</footer>

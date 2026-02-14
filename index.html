@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>D'lia Ornaments PH</title>
+  <link rel="icon" href="assets/home/logo.png" />
+
+  <!-- ====== CSS & FONTS ====== -->
+  <link rel="stylesheet" href="styles/home.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- ====== GSAP ANIMATIONS ====== -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+  <script src="scripts/home.js" defer></script>
+</head>
+
+<body>
+  <!-- ========================
+       NAVIGATION BAR
+  ========================= -->
+  <nav id="navbar">
+    <h1 class="brand">D'lia Ornaments PH</h1>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#bracelets">Products</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#faqs">FAQs</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ========================
+       HERO SECTION
+  ========================= -->
+  <header class="hero" id="home">
+    <div class="hero-content">
+      <img src="assets/home/logo.png" alt="D'lia Ornaments Logo" class="hero-logo" />
+      <p>Discover timeless Italian bracelets and charms crafted with passion.</p>
+      <a href="#bracelets" class="btn gold-btn">Explore Now</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- ========================
+         BRACELETS SECTION
+    ========================= -->
+    <section class="bracelet-section" id="bracelets">
+      <h2>Choose Your Bracelet</h2>
+      <div class="bracelet-options">
+        <div class="bracelet">
+          <img src="assets/home/silver.jpg" alt="Silver Bracelet" />
+          <h3>Classic Silver Italian</h3>
+          <a href="sizechart.html?bracelet=silver" class="btn gold-btn">View Sizes</a>
+        </div>
+        <div class="bracelet">
+          <img src="assets/home/gold.jpg" alt="Gold Bracelet" />
+          <h3>Classic Gold Italian</h3>
+          <a href="sizechart.html?bracelet=gold" class="btn gold-btn">View Sizes</a>
+        </div>
+        <div class="bracelet">
+          <img src="assets/home/mixed.jpg" alt="Mixed Bracelet" />
+          <h3>Classic Silver & Gold Italian</h3>
+          <a href="sizechart.html?bracelet=mixed" class="btn gold-btn">View Sizes</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================
+         LINKS / CUSTOMIZE SECTION
+    ========================= -->
+    <section class="links-section">
+      <h2>Customize Your Own</h2>
+      <div class="link-options">
+        <div class="link">
+          <img src="assets/home/silver-link.jpg" alt="Silver Link" />
+          <h3>Silver Links</h3>
+          <a href="shop.html" class="btn gold-btn" onclick="localStorage.setItem('customizedMode', 'true')">Customize</a>
+        </div>
+        <div class="link">
+          <img src="assets/home/gold-link.jpg" alt="Gold Link" />
+          <h3>Gold Links</h3>
+          <a href="shop.html" class="btn gold-btn" onclick="localStorage.setItem('customizedMode', 'true')">Customize</a>
+        </div>
+        <div class="link">
+          <img src="assets/home/mixed-link.jpg" alt="Mixed Link" />
+          <h3>Mixed Links</h3>
+          <a href="shop.html" class="btn gold-btn" onclick="localStorage.setItem('customizedMode', 'true')">Customize</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================
+         ABOUT SECTION
+    ========================= -->
+    <section id="about" class="about">
+      <h2>About D'lia Ornaments PH</h2>
+      <p>
+        D'lia Ornaments PH is where Italian craftsmanship meets personal expression.
+        We create elegant pieces designed not just to accessorize, but to celebrate your unique journey and story.
+        Each ornament is meticulously crafted, embodying a timeless sophistication that complements your distinct style.
+        At D'lia, we believe every piece of jewelry is a subtle yet powerful declaration of who you are.
+      </p>
+    </section>
+
+    <!-- ========================
+         FAQ SECTION
+    ========================= -->
+    <section class="faqs" id="faqs">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-container">
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Do you offer custom bracelet sizes?</span>
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Absolutely! You can select your precise wrist size using our
+              <a href="sizechart.html" target="_blank" class="faq-link">size chart</a>
+              before checkout to ensure the perfect fit.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>How long does shipping take?</span>
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Shipping typically takes 3–7 business days. Delivery time may vary slightly depending on your location and charm availability.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Can I customize my bracelet with charms later?</span>
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Yes! You can purchase additional charms anytime and easily attach them to your existing bracelet.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Do you ship internationally?</span>
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Currently, we only ship within the Philippines — but international shipping is coming soon!
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>What are your accepted modes of payment?</span>
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              We accept GCash, Maya, QR PH, and Cash on Delivery (COD).
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>How much do your products cost?</span>
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Prices range from ₱300 - ₱1000 depending on bracelet type, size, and charm selections.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Are your products of good quality?</span>
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Yes! All products are crafted from high-quality materials — proper care ensures lasting elegance.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>What delivery couriers do you use?</span>
+            <span class="arrow">▾</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              We partner with trusted couriers like J&T Express and offer free delivery within Imus, Cavite.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================
+         CONTACT SECTION
+    ========================= -->
+    <section id="contact" class="contact">
+      <h2>Contact Us</h2>
+      <p><i class="fab fa-google"></i>
+        <a href="mailto:dliaornamentsph@gmail.com">dliaornamentsph@gmail.com</a></p>
+      <p><i class="fab fa-instagram"></i>
+        <a href="https://instagram.com/dliaornamentsph" target="_blank">@dliaornamentsph</a></p>
+      <p><i class="fab fa-tiktok"></i>
+        <a href="https://www.tiktok.com/@dliaornamentsph?_t=ZS-8zuo53HJTcH&_r=1" target="_blank">@dliaornamentsph</a></p>
+      <p><i class="fab fa-facebook"></i>
+        <a href="https://www.facebook.com/profile.php?id=100086048326178" target="_blank">D'lia Ornaments PH</a></p>
+    </section>
+  </main>
+
+  <!-- ========================
+       FOOTER
+  ========================= -->
+  <footer>
+    <p>© 2025 D'lia Ornaments PH | All rights reserved.</p>
+  </footer>
+
+  <!-- FAQ Toggle & Hamburger Script -->
+  <script>
+    document.querySelectorAll('.faq-question').forEach(button => {
+      button.addEventListener('click', () => {
+        const faqItem = button.parentElement;
+        faqItem.classList.toggle('active');
+      });
+    });
+
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>

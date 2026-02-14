@@ -1,0 +1,913 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #690d0d;
+  color: #3a2d2d;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* Loader */
+#loader {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.loader-text {
+  font-size: 1.5rem;
+  color: #bfa76f;
+  background: linear-gradient(90deg, #bfa76f, #d7c48f, #bfa76f);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 2s infinite linear;
+}
+
+@keyframes shimmer {
+  to { background-position: 200% center; }
+}
+
+/* Header */
+.shop-header {
+  text-align: center;
+  padding: 3rem 1rem 0.5rem;
+  color: #fff;
+}
+
+/* NEW FILTER BAR STYLES */
+#filter-bar {
+  text-align: center;
+  padding: 0 1rem 3rem; /* Adjusted padding to separate it from the header */
+  background-color: #690d0d;
+}
+
+.filter-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.filter-label {
+  color: #fff;
+  font-weight: 400;
+  font-size: 1.1rem;
+  margin-right: 15px;
+}
+
+.elegant-dropdown {
+  width: 300px; 
+  padding: 10px 25px 10px 15px;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  color: #3a2d2d;
+  background-color: #fff;
+  border: 2px solid #bfa76f; /* Elegant gold border */
+  border-radius: 4px;
+  appearance: none; /* Hide default dropdown arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23bfa76f' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  cursor: pointer;
+  transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s ease;
+}
+
+.elegant-dropdown:hover {
+  border-color: #d7c48f; /* Lighter Gold on Hover */
+}
+
+.elegant-dropdown:focus {
+  outline: none;
+  border-color: #d7c48f; /* Lighter gold on focus */
+  box-shadow: 0 0 0 2px rgba(191, 167, 111, 0.5);
+}
+
+.elegant-dropdown:active, 
+.elegant-dropdown option:checked {
+  background-color: #f7f7f7; 
+}
+
+.back-home {
+  text-decoration: none;
+  color: #bfa76f;
+  font-weight: 500;
+  position: absolute;
+  left: 1.5rem;
+  top: 1.5rem;
+}
+
+h1 {
+  font-size: 5rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.subtitle {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-top: 0;
+}
+
+/* Sections */
+.charm-section {
+  text-align: center;
+  padding: 3rem 1rem;
+  background-color: #690d0d;
+}
+
+#silver-charms {
+  background-color: #690d0d;
+  color: #fff;
+}
+
+h2 {
+  font-size: 2.4rem;
+  color: #bfa76f;
+  margin-bottom: 2rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+#pink-grid h2 {
+  color: #ff69b4; 
+}
+
+#silver-grid h2 {
+  color: #C0C0C0;
+}
+
+#animal-grid h2 {
+  color: #C0C0C0;
+}
+
+#floral-grid h2 {
+  color: #fff;
+}
+
+#gem-grid h2 {
+  color: #fff;
+}
+
+#goldbasic-grid h2 {
+  color: #bfa76f;
+}
+
+#quotes-grid h2 {
+  color: #C0C0C0;
+}
+
+#silvergold-grid h2 {
+  color: #C0C0C0;
+}
+
+#silverseries-grid h2 {
+  color: #C0C0C0;
+}
+
+#silverbasic-grid h2 {
+  color: #C0C0C0;
+}
+
+#silverfood-grid h2 {
+  color: #C0C0C0;
+}
+
+#pink-grid .charm-card img {
+  background: #ff69b4; 
+}
+
+#silver-grid .charm-card img {
+  background: #C0C0C0;
+}
+
+#animal-grid .charm-card img {
+  background: #C0C0C0;
+}
+
+#floral-grid .charm-card img {
+  background: #fff;
+}
+
+#gem-grid .charm-card img {
+  background: #fff;
+}
+
+#goldbasic-grid .charm-card img {
+  background: #bfa76f;
+}
+
+#quotes-grid .charm-card img {
+  background: #C0C0C0;
+}
+
+#silvergold-grid .charm-card img {
+  background: #C0C0C0;
+}
+
+#silverseries-grid .charm-card img {
+  background: #C0C0C0;
+}
+
+#silverbasic-grid .charm-card img {
+  background: #C0C0C0;
+}
+
+#silverfood-grid .charm-card img {
+  background: #C0C0C0;
+}
+
+/* Grid */
+.charm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.charm-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 0;
+}
+
+.charm-section {
+  text-align: center;
+  padding: 3rem 1rem;
+  background-color: #690d0d;
+  opacity: 1; /* force visible */
+  pointer-events: auto;
+  transform: scale(1);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+
+.charm-section.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+#silver-charms .charm-card {
+  background-color: #fff;
+}
+
+.charm-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+}
+
+.charm-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+  background: #bfa76f;
+}
+
+.charm-info {
+  padding: 1rem;
+  color: #3a2d2d;
+}
+
+.charm-info h3 {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
+.charm-info p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.price {
+  color: #bfa76f;
+  font-weight: 600;
+}
+
+/* Coming soon card */
+.coming-soon {
+  background: radial-gradient(circle at center, rgba(191,167,111,0.05), rgba(0,0,0,0.05));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+.coming-soon p {
+  font-size: 1rem;
+  color: #bfa76f;
+  margin: 0;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #690d0d;
+  color: #fff;
+  font-size: 0.85rem;
+}
+
+/* Hidden content before load */
+.hidden {
+  opacity: 0;
+}
+
+/* --- Bracelet Summary Panel --- */
+.summary {
+  position: sticky;
+  top: 0;
+  background: #690d0d;
+  padding: 10px 20px;
+  font-weight: 500;
+  text-align: center;
+  
+  z-index: 50;
+}
+
+/* --- Responsive Behavior --- */
+@media (max-width: 900px) {
+  .summary-panel {
+    display: none;
+  }
+  .mobile-summary {
+    display: flex;
+  }
+}
+
+/* ✅ YOUR ORIGINAL CODE ABOVE (unchanged) */
+
+/* --- 🛒 Floating Cart Button --- */
+#cart-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background: #d4af37;
+  color: #1c0a0a;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  font-size: 1.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 110;
+  transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+#cart-btn:hover {
+  transform: scale(1.1);
+  background: #bfa76f;
+}
+
+/* Small badge for item count */
+#cart-btn .cart-count {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: #690d0d;
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-weight: 600;
+}
+
+/* --- 🛍️ Slide-Out Cart Drawer --- */
+#cart-drawer {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 340px;
+  height: 100vh;
+  background: #2b0f0f;
+  border-left: 2px solid #bfa76f;
+  color: #fff;
+  box-shadow: -5px 0 20px rgba(0,0,0,0.4);
+  padding: 1.5rem;
+  z-index: 120;
+  transition: right 0.4s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+#cart-drawer.open {
+  right: 0;
+}
+
+#cart-drawer h3 {
+  color: #d4af37;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+#cart-items {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #3a1c1c;
+  padding: 8px 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.cart-item img {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.cart-item .item-name {
+  flex: 1;
+  margin-left: 10px;
+  font-size: 0.9rem;
+}
+
+.cart-item .item-price {
+  color: #d4af37;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.cart-item button {
+  background: none;
+  border: none;
+  color: #ff5555;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+#cart-total {
+  text-align: right;
+  font-weight: 600;
+  color: #d4af37;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+#checkout-btn {
+  width: 100%;
+  background: #d4af37;
+  color: #2b0f0f;
+  border: none;
+  padding: 1px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#checkout-btn:hover {
+  background: #bfa76f;
+}
+
+/* --- Overlay when cart is open --- */
+#cart-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.5);
+  z-index: 115;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+}
+
+#cart-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 600px) {
+  #cart-drawer {
+    width: 90%;
+  }
+}
+
+#summary-panel,
+#mobile-summary {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  overflow: hidden;
+}
+
+/* --- 🛍️ Fix Cart Layout (button always visible) --- */
+#cart-drawer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  box-sizing: border-box;
+}
+
+#cart-items {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+  padding-right: 4px;
+}
+
+/* Pin the checkout button at bottom */
+#checkout-btn {
+  position: sticky;
+  bottom: 0;
+  background: #d4af37;
+  color: #2b0f0f;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: auto;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+}
+
+#checkout-btn:hover {
+  background: #bfa76f;
+}
+
+/* --- Quantity Controls --- */
+.item-quantity {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #2b0f0f;
+  border: 1px solid #bfa76f;
+  border-radius: 6px;
+  padding: 3px 6px;
+}
+
+.qty-btn {
+  background: none;
+  border: 1px solid #bfa76f;
+  color: #f5e7c0;
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.qty-btn:hover {
+  background: #bfa76f;
+  color: #2b0f0f;
+}
+
+.qty-value {
+  font-size: 0.85rem;
+  color: #fff;
+  min-width: 22px;
+  text-align: center;
+}
+
+/* --- Price Column --- */
+.item-price {
+  font-weight: 600;
+  color: #d4af37;
+  font-size: 0.9rem;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* --- Remove Button --- */
+.remove-btn {
+  background: none;
+  border: none;
+  color: #ff4d4d;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.remove-btn:hover {
+  color: #ff7777;
+}
+
+/* 🛍️ Floating Cart Bounce Animation */
+@keyframes cart-bounce {
+  0% { transform: scale(1); }
+  20% { transform: scale(1.25); }
+  40% { transform: scale(0.95); }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+#cart-btn.animate {
+  animation: cart-bounce 0.5s ease-in-out;
+  transform: scale(1.2);
+  background: #bfa76f;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+#cart-btn.animate span {
+  transform: scale(1.2);
+}
+
+/* ==========================
+   📏 SIZE GUIDE MODAL STYLES
+========================== */
+.size-guide-wrapper {
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.size-guide-btn {
+  background: none;
+  border: 2px solid #d4af37;
+  color: #d4af37;
+  padding: 0.6rem 1.4rem;
+  font-family: 'Poppins', sans-serif;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  margin-top: 0rem; /* or 0 for no extra space */
+}
+
+.size-guide-btn:hover {
+  background: #d4af37;
+  color: #1c0a0a;
+}
+
+/* Modal backdrop */
+.size-guide-modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.size-guide-modal.active {
+  display: flex;
+}
+
+/* Modal content */
+.size-guide-content {
+  background-color: #2b0f0f;
+  color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+  position: relative;
+  animation: slideUp 0.3s ease;
+}
+
+.size-guide-content h2 {
+  color: #d4af37;
+  margin-bottom: 1rem;
+}
+
+.size-guide-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.size-guide-content th,
+.size-guide-content td {
+  padding: 0.6rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.size-guide-content th {
+  color: #d4af37;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+.size-guide-content td {
+  color: #3a2d2d;
+  font-size: 0.9rem;
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: #d4af37;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.close-modal:hover {
+  color: #fff;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* ==========================
+   ✅ PLAIN LINKS SECTION
+   Matches plain-links in shop.html & shop.js
+========================== */
+
+#plain-links {
+  background-color: #690d0d;
+  padding: 1rem 1rem 2rem;
+  text-align: center;
+}
+
+#plain-links h2 {
+  color: #fff;
+  font-size: 2.4rem;
+  letter-spacing: 1px;
+  margin-top: 0rem;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+}
+
+#plain-links .charm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 2rem;
+  width: 40%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+#plain-links .charm-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#plain-links .charm-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+#plain-links .charm-card img {
+  width: 50%;
+  height: 150px;
+  object-fit: contain;
+  background: #fff;
+  padding: 10px;
+}
+
+#plain-links .charm-info {
+  padding: 0.8rem 1rem;
+  color: #3a2d2d;
+}
+
+#plain-links .charm-info h3 {
+  font-size: 1rem;
+  margin: 0.4rem 0;
+  font-weight: 600;
+}
+
+#plain-links .price {
+  color: #555;
+  font-weight: 600;
+}
+
+/* ==========================
+   ✅ SIZE GUIDE BUTTON (for pop-up modal)
+========================== */
+.size-guide-wrapper {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.size-guide-btn {
+  background: none;
+  border: 2px solid #d4af37;
+  color: #d4af37;
+  padding: 0.6rem 1.4rem;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.size-guide-btn:hover {
+  background: #d4af37;
+  color: #1c0a0a;
+}
+
+/* ==========================
+   ✅ SIZE GUIDE MODAL (already styled)
+   Just reinforcing for minimal clean layout
+========================== */
+#size-guide-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6); /* semi-transparent overlay */
+  justify-content: center;
+  align-items: center;
+}
+.size-guide-modal.active {
+  display: flex;
+}
+
+.size-guide-content {
+  background: #fff;
+  color: #3a2d2d;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(0,0,0,0.2);
+  animation: slideUp 0.3s ease;
+}
+
+.size-guide-content h2 {
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  color: #690d0d;
+}
+
+.size-guide-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.size-guide-content th,
+.size-guide-content td {
+  border-bottom: 1px solid #ccc;
+  padding: 0.5rem;
+}
+
+.size-guide-content a {
+  color: #d4af37;
+  text-decoration: none;
+}
+
+.size-guide-content a:hover {
+  text-decoration: underline;
+}
+
+.close-modal {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 1.5rem;
+  color: #690d0d;
+  cursor: pointer;
+}
+
+.close-modal:hover {
+  color: #3a2d2d;
+}

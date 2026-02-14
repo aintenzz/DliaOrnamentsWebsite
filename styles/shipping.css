@@ -1,0 +1,325 @@
+/* ===================
+   BASE STYLES
+=================== */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #690d0d;
+  color: #2b0f0f;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== Container & Header ===== */
+.shipping-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem 1rem;
+}
+
+.shipping-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.brand-title {
+  font-size: 2rem;
+  color: #bfa76f;
+  margin-bottom: 0.5rem;
+}
+
+.breadcrumb {
+  font-size: 0.95rem;
+  color: #fff;
+}
+
+.breadcrumb a {
+  text-decoration: none;
+  color: #d4af37;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+
+/* ===== Layout ===== */
+.checkout-layout {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 50px;
+  max-width: 1050px;
+  width: 100%;
+  align-items: stretch;
+}
+
+/* ===================
+   LEFT SECTION
+=================== */
+.left-section {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- Contact / Ship To Cards ---- */
+.info-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+}
+
+.info-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+}
+
+.info-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #2b0f0f;
+}
+
+.info-details {
+  color: #555;
+  font-size: 0.85rem;
+  grid-column: 1 / 2;
+  margin-top: 2px;
+}
+
+.info-change {
+  color: #000000;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+.info-change:hover {
+  text-decoration: underline;
+}
+
+/* ===================
+   SHIPPING METHODS
+=================== */
+h2 {
+  font-size: 1.2rem;
+  color: #fff;
+  margin-bottom: 0.8rem;
+}
+
+/* --- Each shipping method card --- */
+.method-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px; /* tighter spacing between radio/info/price */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0.8rem 1rem; /* less padding for compact look */
+  margin-bottom: 0.8rem;
+  transition: 0.2s ease;
+  background: #fff;
+}
+
+.method-card:hover {
+  border-color: #bfa76f;
+  background: #fff7e6;
+}
+
+.method-info {
+  flex: 1;
+}
+
+.method-title {
+  font-weight: 600;
+  color: #2b0f0f;
+  font-size: 0.95rem;
+  margin-bottom: 3px;
+}
+
+.method-desc {
+  font-size: 0.8rem;
+  color: #666;
+  margin: 0;
+}
+
+.method-price {
+  font-weight: 600;
+  color: #2b0f0f;
+}
+
+/* ===================
+   ACTION BUTTONS
+=================== */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.back-link {
+  color: #bfa76f;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.next-btn {
+  background: #bfa76f;
+  border: none;
+  color: white;
+  padding: 10px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.3s;
+}
+
+.next-btn:hover {
+  background: #d4af37;
+}
+
+/* ===================
+   RIGHT SECTION / ORDER SUMMARY
+=================== */
+.right-section {
+  flex: 0.8;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  align-self: flex-start;
+}
+
+.right-section::-webkit-scrollbar {
+  width: 6px;
+}
+.right-section::-webkit-scrollbar-thumb {
+  background: #bfa76f;
+  border-radius: 3px;
+}
+.right-section::-webkit-scrollbar-thumb:hover {
+  background: #d4af37;
+}
+
+.right-section h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #2b0f0f;
+}
+
+/* ---- Order item list ---- */
+#order-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.order-item {
+  display: grid;
+  grid-template-columns: 55px 1fr 40px 70px 30px; /* Added one column for remove-btn */
+  align-items: center;
+  gap: 10px;
+}
+
+
+.order-item img {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.order-name {
+  font-size: 0.9rem;
+  color: #2b0f0f;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.order-qty {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.order-price {
+  font-weight: 600;
+  color: #000000;
+  text-align: right;
+}
+
+/* ---- Summary ---- */
+.order-summary {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.order-summary div {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.4rem 0;
+}
+
+.total {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #2b0f0f;
+}
+
+.bracelet-preview-wrapper {
+  margin-top: 0.2rem;
+  text-align: center;
+  background: none;
+  border: none;
+  padding: 1rem 0;
+  position: relative;
+  z-index: 2; /* stays above neighboring content */
+}
+
+.bracelet-preview-wrapper img {
+  width: 100%;        /* Enlarged size */
+  max-width: 1050px; /* Responsive cap */
+  height: auto;
+  display: inline-block;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  margin-left: center; /* Center the enlarged image */
+}
+
+footer {
+  text-align: center;
+  margin-top: 8.5rem;
+  padding: 1.5rem;
+  background-color: #690d0d;
+  color: #d4af37;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: #a00;           /* visible dark red */
+  font-size: .7rem;
+  cursor: pointer;
+  text-align: center;
+  line-height: 1;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.remove-btn:hover {
+  color: #e53935;        /* brighter red hover */
+}

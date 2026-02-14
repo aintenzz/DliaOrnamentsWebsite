@@ -1,0 +1,416 @@
+/* 🌹 Global Styles */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #690d0d;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* 🌟 Navigation Bar */
+nav {
+  background-color: #2b0f0f;
+  border-bottom: 2px solid #bfa76f;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  padding: 0 3rem;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+.brand {
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  margin: 0;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #d4af37;
+  transform: translateY(-2px);
+}
+
+/* Hamburger Menu */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+.hamburger span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: #fff;
+}
+
+/* 💎 Hero Section */
+.hero {
+  height: 100vh;
+  background: url('../assets/home/hero-bg.jpg') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 2rem;
+}
+
+.hero-logo {
+  display: block;
+  width: 800px;
+  max-width: 100%;
+  margin: 0 auto 1.5rem;
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.5));
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin: 1rem 0 2.5rem;
+  color: #fff;
+  opacity: 0.9;
+}
+
+/* 🌼 Buttons */
+.btn {
+  padding: 0.7rem 1.6rem;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.gold-btn {
+  background-color: #d4af37;
+  color: #1c0a0a;
+}
+
+.gold-btn:hover {
+  background-color: #b8901d;
+  color: #fff;
+}
+
+/* ================================
+   💍 BRACELETS SECTION
+================================ */
+.bracelet-section {
+  padding: 8rem 2rem 4rem;
+  text-align: center;
+}
+
+.bracelet-section h2 {
+  color: #d4af37;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.bracelet-options {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.bracelet {
+  background-color: #2b0f0f;
+  border-radius: 12px;
+  width: 270px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bracelet:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+}
+
+.bracelet img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.bracelet h3 {
+  margin: 1rem 0;
+  font-weight: 500;
+  color: #fff;
+}
+
+.bracelet .btn {
+  margin-top: 0.5rem;
+  display: inline-block;
+  width: 70%;
+}
+
+/* ================================
+   🔗 LINKS / CUSTOMIZE SECTION
+================================ */
+.links-section {
+  text-align: center;
+  padding: 3rem 2rem 5rem;
+  margin-top: 3rem;
+  border-top: 1px solid rgba(191, 167, 111, 0.3);
+}
+
+.links-section h2 {
+  color: #d4af37;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.link-options {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.link {
+  background-color: #2b0f0f;
+  border-radius: 12px;
+  width: 270px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.link:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+}
+
+.link img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.link h3 {
+  color: #fff;
+  margin: 1rem 0;
+  font-weight: 500;
+}
+
+/* ================================
+   🌙 INFO SECTIONS
+================================ */
+.about, .faqs, .contact {
+  padding: 6rem 2rem;
+  text-align: center;
+  background-color: #690d0d;
+}
+
+.about h2, .faqs h2, .contact h2 {
+  color: #d4af37;
+  font-size: 2rem;
+  margin-bottom: 1.2rem;
+}
+
+.about p, .contact p {
+  max-width: 700px;
+  margin: 1rem auto 0;
+  line-height: 1.6;
+}
+
+/* ✨ FAQ Section */
+.faq-container {
+  max-width: 800px;
+  margin: 2rem auto 0;
+  text-align: left;
+}
+
+.faq-item {
+  border-bottom: 1px solid #bfa76f;
+  padding: 1rem 0;
+  font-size: 0.9rem;
+}
+
+.faq-question {
+  width: 100%;
+  background: none;
+  border: none;
+  color: #d4af37;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.faq-question:hover {
+  color: #fff;
+}
+
+.arrow {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%) rotate(0deg);
+  transition: transform 0.3s ease;
+  font-size: 1.2rem;
+  color: #bfa76f;
+}
+
+.faq-item.active .arrow {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+}
+
+.faq-item.active .faq-answer {
+  max-height: 200px;
+  opacity: 1;
+}
+
+.faq-answer p {
+  margin: 0.5rem 0 0;
+  color: #ddd;
+}
+
+.faq-answer a {
+  color: #fff;
+  text-decoration: underline;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.faq-answer a:hover {
+  color: #d4af37;
+}
+
+/* 📞 Contact Icons */
+.contact i {
+  color: #d4af37;
+  margin-right: 8px;
+  font-size: 1.2rem;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.contact i:hover {
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.contact a {
+  color: #fff;
+}
+
+.contact a:hover {
+  color: #d4af37;
+}
+
+/* 💛 Footer */
+footer {
+  text-align: center;
+  padding: 1.5rem;
+  background-color: #690d0d;
+  color: #d4af37;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+/* =========================
+   RESPONSIVE MEDIA QUERIES
+========================= */
+
+/* Tablet / Small desktop */
+@media (max-width: 1024px) {
+  nav {
+    flex-direction: column;
+    height: auto;
+    padding: 1rem 2rem;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .bracelet-options, .link-options {
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .hero {
+    height: auto;
+    padding: 4rem 2rem 2rem;
+  }
+
+  .hero-logo {
+    width: 60%;
+  }
+}
+
+/* Tablet / Mobile landscape */
+@media (max-width: 768px) {
+  .nav-links { display: none; flex-direction: column; gap: 0; background: #690d0d; position: absolute; top: 70px; left: 0; width: 100%; padding: 1rem 0; }
+  .nav-links.active { display: flex; }
+  .hamburger { display: flex; }
+
+  .hero p { font-size: 1rem; }
+  .bracelet, .link { width: 45%; }
+}
+
+/* Mobile portrait */
+@media (max-width: 480px) {
+  .bracelet, .link { width: 100%; }
+  .hero-logo { width: 120px; }
+  .hero p { font-size: 0.95rem; }
+  .btn { padding: 0.6rem 1.2rem; font-size: 0.9rem; }
+}
+
+/* MOBILE HERO FIX */
+@media (max-width: 768px) {
+  .hero {
+    height: auto;           /* allow hero to adjust height */
+    padding: 4rem 1rem;     /* reduce padding */
+    flex-direction: column; /* stack content vertically */
+  }
+
+  .hero-logo {
+    width: 150px;           /* smaller logo */
+    margin-bottom: 1rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+    line-height: 1.4;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn.gold-btn {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.95rem;
+  }
+}

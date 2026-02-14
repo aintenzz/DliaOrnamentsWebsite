@@ -1,0 +1,212 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #690d0d;
+  color: #2b1a1a;
+  margin: 0;
+  padding: 0;
+}
+
+.checkout-container {
+  max-width: 600px;
+  max-height: 800px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 30px 40px;
+}
+
+.shop-title {
+  text-align: center;
+  color: #bfa76f;
+  font-weight: 600;
+  margin-bottom: 10px;
+  margin-top: -12px;
+}
+
+.breadcrumb {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 30px;
+}
+
+.checkout-form h2 {
+  color: #bfa76f;
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+}
+
+input:focus, select:focus {
+  border-color: #bfa76f;
+  outline: none;
+  box-shadow: 0 0 4px #d4af37;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+.col {
+  flex: 1;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.back-link {
+  text-decoration: none;
+  color: #bfa76f;
+  font-weight: 500;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+}
+
+.next-btn {
+  background: #bfa76f;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.next-btn:hover {
+  background: #d4af37;
+  transform: scale(1.03);
+}
+
+.preview-btn {
+  background: #bfa76f;
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-right: 10px;
+}
+
+.preview-btn:hover {
+  background: #d4af37;
+}
+
+/* --- Bracelet Preview Section --- */
+#bracelet-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap; /* Prevent wrapping into 2 rows */
+  overflow-x: auto;  /* Allow horizontal scrolling if too long */
+  padding: 1.5rem;
+  background: #2b0f0f;
+  border: 2px solid #bfa76f;
+  border-radius: 12px;
+  margin: 2rem auto;
+  max-width: 90%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  gap: 0; /* Make charms look “connected” */
+}
+
+/* Each link or charm image */
+.preview-link, .preview-charm {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+  margin-left: -6px; /* overlap slightly to look connected */
+  transition: transform 0.2s ease;
+  cursor: grab;
+}
+
+.preview-link:first-child {
+  margin-left: 0;
+}
+
+/* On hover */
+.preview-charm:hover {
+  transform: scale(1.15);
+  z-index: 2;
+}
+
+/* For Gold, Silver, and Mixed bracelets (optional tone backgrounds) */
+.bracelet-gold #bracelet-preview {
+  background: linear-gradient(to right, #6b4a0f, #bfa76f);
+}
+
+.bracelet-silver #bracelet-preview {
+  background: linear-gradient(to right, #6c6c6c, #d9d9d9);
+}
+
+.bracelet-mixed #bracelet-preview {
+  background: linear-gradient(to right, #bfa76f, #d9d9d9);
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 16px;
+}
+
+.checkbox-row input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #d4af37; /* gold tint */
+  margin: 0;
+}
+
+.checkbox-row label {
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.checkbox-row label {
+  position: relative;
+  top: 2.8px;
+}
+
+footer {
+  text-align: center;
+  margin-top: 1rem;
+  padding: 1.5rem;
+  background-color: #690d0d;
+  color: #d4af37;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}

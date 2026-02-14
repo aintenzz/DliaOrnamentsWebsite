@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Preview — D'lia Ornaments</title>
+
+  <link rel="stylesheet" href="styles/preview.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/home/logo.png" />
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+  <script src="scripts/preview.js" defer></script>
+</head>
+<body>
+  <header class="preview-header">
+    <a href="checkout.html" class="back">← Back</a>
+    <h1>Preview Your Bracelet</h1>
+  </header>
+
+  <main class="preview-main">
+    <!-- LEFT PANEL -->
+    <section class="preview-left">
+      <h2 class="pane-title" style="color:var(--gold)">Your Bracelet</h2>
+
+      <div class="info-box">
+        <p><strong>Detected Size:</strong> <span id="info-size">—</span></p>
+        <p><strong>Total Links + Charms:</strong> <span id="info-slots">—</span></p>
+      </div>
+
+      <div class="controls">
+        <button id="reset-btn" class="btn outline">Reset Bracelet</button>
+        <button id="save-btn" class="btn primary">Save Bracelet Image</button>
+        <button id="save-design-btn" class="btn outline">Export Design (JSON)</button>
+      </div>
+
+      <div class="instructions" style="color:var(--muted)">
+        <h3 style="color:var(--gold)">Instructions</h3>
+        <ul>
+          <li>Drag and drop your charms and links from the right pane into the bracelet area.</li>
+          <li>Arrange them in your preferred order.</li>
+          <li>You can have <strong>16–20 total pieces</strong> (auto-detects size).</li>
+          <li>Click <strong>Save Bracelet Image</strong> when done to preview it later.</li>
+          <li>Use <strong>Reset Bracelet</strong> to clear and start over.</li>
+        </ul>
+      </div>
+
+      <!-- Hidden canvas for export -->
+      <canvas id="export-canvas" width="1000" height="250" style="display:none;"></canvas>
+    </section>
+
+    <!-- CENTER: Bracelet display -->
+    <section class="preview-center">
+      <div class="bracelet-zone">
+        <div class="bracelet-wrap">
+          <div id="bracelet" class="bracelet" aria-label="Bracelet preview"></div>
+        </div>
+        <p class="bracelet-note">
+          🟡 The displayed bracelet is only a default preview base. You can arrange and customize your links and charms freely.
+        </p>
+      </div>
+    </section>
+
+    <!-- RIGHT PANEL -->
+    <aside class="preview-right">
+      <h3>Charms in Your Design</h3>
+      <div id="charms-list" class="charms-list" aria-live="polite">
+        <!-- thumbnails injected dynamically -->
+      </div>
+
+      <div class="sidebar-note">
+        <p>Drag a charm onto the bracelet or click one to add it to the next available slot.</p>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 D'lia Ornaments PH | All Rights Reserved.</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,268 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #690d0d;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+nav {
+  background-color: #2b0f0f; /* matches your theme */
+  border-bottom: 2px solid #bfa76f;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* allows items to move if space is small */
+  height: 70px;
+  padding: 0 3rem;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  min-height: 70px; /* ensures enough vertical space */
+  box-sizing: border-box;
+}
+
+.brand {
+  color: #d4af37;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #fff;
+  transition: color 0.3s;
+}
+.nav-links a:hover {
+  color: #d4af37;
+}
+
+.size-header {
+  text-align: center;
+  padding: 8rem 1rem 3rem;
+  background-color: #690d0d;
+}
+
+.size-header h1 {
+  color: #d4af37;
+  font-size: 2.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.size-header p {
+  color: #fff;
+  font-weight: 300;
+}
+
+.content {
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.chart-section {
+  margin-bottom: 3rem;
+}
+
+.size-chart {
+  width: 80%;
+  max-width: 700px;
+  margin: 2rem auto;
+  border-collapse: collapse;
+  background-color: #2b0f0f;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.size-chart th, .size-chart td {
+  padding: 1rem;
+  border-bottom: 1px solid #4a1e1e;
+}
+
+.size-chart th {
+  background-color: #d4af37;
+  color: #1c0a0a;
+  text-transform: uppercase;
+}
+
+.size-chart tr:last-child td {
+  border-bottom: none;
+}
+
+.size-chart td {
+  color: #fff;
+}
+
+.options h2 {
+  color: #d4af37;
+}
+
+.option-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.btn {
+  padding: 0.8rem 1.5rem;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.gold-btn {
+  background-color: #d4af37;
+  color: #1c0a0a;
+}
+.gold-btn:hover {
+  background-color: #b8901d;
+}
+
+.outline-btn {
+  border: 2px solid #d4af37;
+  color: #d4af37;
+}
+.outline-btn:hover {
+  background-color: #d4af37;
+  color: #1c0a0a;
+}
+
+footer {
+  text-align: center;
+  padding: 1.5rem;
+  background-color: #690d0d;
+  color: #d4af37;
+  margin-top: 3rem;
+}
+
+/* --- Bracelet Size Selector --- */
+.size-selector {
+  text-align: center;
+  margin: 2rem auto;
+}
+
+.size-selector h3 {
+  color: #bfa76f;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 1.5rem;
+}
+
+.size-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Base button style */
+/* Base button style */
+.size-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 2px solid #bfa76f;
+  border-radius: 10px;
+  padding: 0.8rem 1.6rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #3a2d2d;
+  font-weight: 500;
+  font-size: 1rem;
+  min-width: 130px;
+}
+
+.size-option:hover {
+  background: #bfa76f;
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Hide the radio button */
+.size-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ❌ REMOVED ALL OLD :checked and :has() RULES (This is the fix) */
+
+/* 🆕 New Selected Style using .is-selected class (Controlled by JavaScript) */
+.size-option.is-selected {
+  background: #bfa76f; /* Gold background */
+  color: #1c0a0a; /* Dark text for non-span text, mostly for inheritance */
+  border-color: #d7c48f;
+  box-shadow: 0 4px 12px rgba(191, 167, 111, 0.5);
+  transform: scale(1.05);
+}
+
+/* FIX: Ensure the text inside the span element gets the correct dark color */
+.size-option.is-selected span {
+  color: #1c0a0a; 
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .size-option {
+    min-width: 100px;
+    font-size: 0.9rem;
+  }
+}
+
+/* --- Price Display --- */
+.price-display {
+  margin-top: 1.2rem;
+  color: #d4af37;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: 0.3s ease;
+}
+
+/* --- Bracelet Summary Box --- */
+.bracelet-summary {
+  margin-top: 1.8rem;
+  background: #2b0f0f;
+  border: 2px solid #bfa76f;
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: fit-content;
+  margin-inline: auto;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+.bracelet-summary.hidden { display: none; }
+
+.bracelet-summary img {
+  width: 80px;
+  height: auto;
+}
+
+.bracelet-summary p {
+  margin: 0.2rem 0;
+  color: #fff;
+}
+
+footer {
+  text-align: center;
+  margin-top: 1rem;
+  padding: 1.5rem;
+  background-color: #690d0d;
+  color: #d4af37;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}

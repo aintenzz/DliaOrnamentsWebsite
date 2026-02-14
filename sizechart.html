@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>D'lia Ornaments PH | Size Guide</title>
+  <link rel="stylesheet" href="styles/sizechart.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+  <script src="scripts/sizechart.js" defer></script>
+  <link rel="icon" href="assets/home/logo.png" />
+</head>
+<body>
+  <nav id="navbar">
+    <a href="index.html" class="brand">← D'lia Ornaments PH</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+    </ul>
+  </nav>
+
+  <header class="size-header">
+    <h1>Bracelet Size Guide</h1>
+    <p>Find your perfect fit — measure your wrist and choose your bracelet size below.</p>
+  </header>
+
+  <main class="content">
+    <section class="chart-section">
+      <h2>Size Chart</h2>
+      <p>Measure your wrist circumference using a measuring tape or a strip of paper, then match it to the chart below:</p>
+      <table class="size-chart">
+        <thead>
+          <tr>
+            <th>Bracelet Size</th>
+            <th>Links Count</th>
+            <th>Centimeters</th>
+            <th>Inches</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Small</td><td>16 Links</td><td>14.2 - 15.2 cm</td><td>5.6 - 6.0 in</td></tr>
+          <tr><td>Medium</td><td>17 Links</td><td>15.2 - 16.2 cm</td><td>6.0 - 6.38 in</td></tr>
+          <tr><td>Large</td><td>18 Links</td><td>16.2 - 17.1 cm</td><td>6.38 - 7.12 in</td></tr>
+          <tr><td>Extra Large</td><td>19 Links</td><td>17.1 - 18.1 cm</td><td>6.73 - 7.12 in</td></tr>
+          <tr><td>Extra Extra Large</td><td>20 Links</td><td>18.1 - 19.2 cm</td><td>7.12 - 7.55 in</td></tr>
+        </tbody>
+      </table>
+
+      <div class="size-selector">
+        <h3>Select Bracelet Size</h3>
+        <div class="size-options">
+          <label class="size-option"><input type="radio" name="size" value="Small"><span>Small</span></label>
+          <label class="size-option"><input type="radio" name="size" value="Medium"><span>Medium</span></label>
+          <label class="size-option"><input type="radio" name="size" value="Large"><span>Large</span></label>
+          <label class="size-option"><input type="radio" name="size" value="Extra Large"><span>Extra Large</span></label>
+          <label class="size-option"><input type="radio" name="size" value="Extra Extra Large"><span>Extra Extra Large</span></label>
+        </div>
+
+        <div id="price-display" class="price-display">
+          Select a size to see the price
+        </div>
+
+        <div id="bracelet-summary" class="bracelet-summary hidden">
+          <img id="bracelet-preview" src="" alt="Bracelet Preview">
+          <div>
+            <p><strong>Bracelet:</strong> <span id="bracelet-color-text">—</span></p>
+            <p><strong>Size:</strong> <span id="bracelet-size-text">—</span></p>
+            <p><strong>Price:</strong> ₱<span id="bracelet-price-text">0.00</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="options">
+      <div class="option-buttons">
+        <a href="checkout.html" class="btn outline-btn">Proceed to Checkout</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 D'lia Ornaments PH | All rights reserved.</p>
+  </footer>
+
+  <script>
+  // ✅ Extract bracelet color/type from URL
+  const params = new URLSearchParams(window.location.search);
+  const braceletColor = params.get('bracelet') || localStorage.getItem('braceletColor') || 'silver';
+  const braceletType = params.get('type') || 'custom';
+  localStorage.setItem('braceletColor', braceletColor);
+  localStorage.setItem('braceletType', braceletType);
+
+  // ✅ Price mapping
+  const priceTable = {
+    silver: { Small: 240, Medium: 255, Large: 270, "Extra Large": 285, "Extra Extra Large": 300 },
+    gold: { Small: 400, Medium: 425, Large: 450, "Extra Large": 475, "Extra Extra Large": 500 },
+    mixed: { Small: 480, Medium: 510, Large: 540, "Extra Large": 570, "Extra Extra Large": 600 }
+  };
+
+  // ✅ Handle selection
+  const priceDisplay = document.getElementById('price-display');
+  const summary = document.getElementById('bracelet-summary');
+  const colorText = document.getElementById('bracelet-color-text');
+  const sizeText = document.getElementById('bracelet-size-text');
+  const priceText = document.getElementById('bracelet-price-text');
+  const braceletPreview = document.getElementById('bracelet-preview');
+
+  let selectedSizeState = null;
+
+  const radios = document.querySelectorAll('input[name="size"]');
+  // Define allLabels for clearing visual state
+  const allLabels = document.querySelectorAll('.size-option'); 
+
+  radios.forEach(radio => {
+    // 💡 IMPORTANT: Use 'click' event for toggle/unselect behavior
+    radio.addEventListener('click', (e) => {
+      
+      const parentLabel = radio.closest('label'); 
+      
+      // ⬇️ TOGGLE/DESELECT LOGIC: If already selected, uncheck it
+      if (radio.value === selectedSizeState) {
+        e.preventDefault(); 
+        radio.checked = false; 
+        
+        // 🛠️ FIX: Manually remove the visual selection class
+        parentLabel.classList.remove('is-selected'); 
+        
+        priceDisplay.textContent = 'Select a size to see the price';
+        summary.classList.add('hidden');
+        selectedSizeState = null;
+        localStorage.removeItem('braceletSize');
+        localStorage.removeItem('braceletPrice');
+        return; // Stop here after deselection
+      }
+
+      // ⬇️ SELECTION LOGIC: If a new item is selected
+
+      // 🛠️ FIX: Clear all visual states, then set the current one
+      allLabels.forEach(label => label.classList.remove('is-selected'));
+      parentLabel.classList.add('is-selected');
+
+      selectedSizeState = radio.value;
+      const selectedSize = radio.value;
+      const colorKey = braceletColor.includes("gold") && !braceletColor.includes("mixed")
+        ? "gold"
+        : braceletColor.includes("mixed")
+        ? "mixed"
+        : "silver";
+
+      const price = priceTable[colorKey][selectedSize];
+      priceDisplay.textContent = `₱${price.toFixed(2)} — ${selectedSize} Bracelet`;
+      summary.classList.remove('hidden');
+      colorText.textContent = colorKey.charAt(0).toUpperCase() + colorKey.slice(1);
+      sizeText.textContent = selectedSize;
+      priceText.textContent = price.toFixed(2);
+      braceletPreview.src = `assets/bracelets/${colorKey}.png`;
+
+      // save
+      localStorage.setItem('braceletSize', selectedSize);
+      localStorage.setItem('braceletColor', colorKey);
+      localStorage.setItem('braceletPrice', price);
+    });
+  });
+
+  // Prevent moving forward without size
+  document.querySelectorAll('.option-buttons a').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      // Check for the selected size using the stored state for reliability
+      if (!selectedSizeState) { 
+        e.preventDefault();
+        alert('Please select your bracelet size first.');
+        return;
+      }
+    });
+  });
+  </script>
+</body>
+</html>
