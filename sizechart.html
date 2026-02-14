@@ -84,96 +84,112 @@
   </footer>
 
   <script>
-  // ✅ Extract bracelet color/type from URL
-  const params = new URLSearchParams(window.location.search);
-  const braceletColor = params.get('bracelet') || localStorage.getItem('braceletColor') || 'silver';
-  const braceletType = params.get('type') || 'custom';
-  localStorage.setItem('braceletColor', braceletColor);
-  localStorage.setItem('braceletType', braceletType);
+  window.addEventListener("DOMContentLoaded", () => {
+    // --- ANIMATIONS REMOVED TO FIX VISIBILITY ISSUES ---
 
-  // ✅ Price mapping
-  const priceTable = {
-    silver: { Small: 240, Medium: 255, Large: 270, "Extra Large": 285, "Extra Extra Large": 300 },
-    gold: { Small: 400, Medium: 425, Large: 450, "Extra Large": 475, "Extra Extra Large": 500 },
-    mixed: { Small: 480, Medium: 510, Large: 540, "Extra Large": 570, "Extra Extra Large": 600 }
-  };
+    // ==========================================
+    // 🟡 LOGIC: Handle Bracelet Selection
+    // ==========================================
 
-  // ✅ Handle selection
-  const priceDisplay = document.getElementById('price-display');
-  const summary = document.getElementById('bracelet-summary');
-  const colorText = document.getElementById('bracelet-color-text');
-  const sizeText = document.getElementById('bracelet-size-text');
-  const priceText = document.getElementById('bracelet-price-text');
-  const braceletPreview = document.getElementById('bracelet-preview');
+    const params = new URLSearchParams(window.location.search);
+    
+    // GET COLOR FOR DISPLAY ONLY (Do not save to localStorage yet!)
+    let displayColor = params.get('bracelet');
+    
+    if (!displayColor) {
+        displayColor = localStorage.getItem('braceletColor') || 'silver';
+    }
 
-  let selectedSizeState = null;
+    const braceletType = params.get('type') || 'custom';
 
-  const radios = document.querySelectorAll('input[name="size"]');
-  // Define allLabels for clearing visual state
-  const allLabels = document.querySelectorAll('.size-option'); 
+    // Price Table
+    const priceTable = {
+      silver: { Small: 240, Medium: 255, Large: 270, "Extra Large": 285, "Extra Extra Large": 300 },
+      gold: { Small: 400, Medium: 425, Large: 450, "Extra Large": 475, "Extra Extra Large": 500 },
+      mixed: { Small: 480, Medium: 510, Large: 540, "Extra Large": 570, "Extra Extra Large": 600 }
+    };
 
-  radios.forEach(radio => {
-    // 💡 IMPORTANT: Use 'click' event for toggle/unselect behavior
-    radio.addEventListener('click', (e) => {
-      
-      const parentLabel = radio.closest('label'); 
-      
-      // ⬇️ TOGGLE/DESELECT LOGIC: If already selected, uncheck it
-      if (radio.value === selectedSizeState) {
-        e.preventDefault(); 
-        radio.checked = false; 
-        
-        // 🛠️ FIX: Manually remove the visual selection class
-        parentLabel.classList.remove('is-selected'); 
-        
-        priceDisplay.textContent = 'Select a size to see the price';
-        summary.classList.add('hidden');
-        selectedSizeState = null;
-        localStorage.removeItem('braceletSize');
-        localStorage.removeItem('braceletPrice');
-        return; // Stop here after deselection
-      }
+    // DOM Elements
+    const priceDisplay = document.getElementById('price-display');
+    const summary = document.getElementById('bracelet-summary');
+    const colorText = document.getElementById('bracelet-color-text');
+    const sizeText = document.getElementById('bracelet-size-text');
+    const priceText = document.getElementById('bracelet-price-text');
+    const braceletPreview = document.getElementById('bracelet-preview');
 
-      // ⬇️ SELECTION LOGIC: If a new item is selected
+    // Determine Key (gold/silver/mixed)
+    let colorKey = "silver";
+    const rawColor = displayColor.toLowerCase();
+    if (rawColor.includes("gold") && !rawColor.includes("mixed")) colorKey = "gold";
+    else if (rawColor.includes("mixed")) colorKey = "mixed";
 
-      // 🛠️ FIX: Clear all visual states, then set the current one
-      allLabels.forEach(label => label.classList.remove('is-selected'));
-      parentLabel.classList.add('is-selected');
-
-      selectedSizeState = radio.value;
-      const selectedSize = radio.value;
-      const colorKey = braceletColor.includes("gold") && !braceletColor.includes("mixed")
-        ? "gold"
-        : braceletColor.includes("mixed")
-        ? "mixed"
-        : "silver";
-
-      const price = priceTable[colorKey][selectedSize];
-      priceDisplay.textContent = `₱${price.toFixed(2)} — ${selectedSize} Bracelet`;
-      summary.classList.remove('hidden');
-      colorText.textContent = colorKey.charAt(0).toUpperCase() + colorKey.slice(1);
-      sizeText.textContent = selectedSize;
-      priceText.textContent = price.toFixed(2);
+    // Show the correct image immediately (Visual Only)
+    if(braceletPreview) {
       braceletPreview.src = `assets/bracelets/${colorKey}.png`;
+    }
+    if(colorText) {
+      colorText.textContent = colorKey.charAt(0).toUpperCase() + colorKey.slice(1);
+    }
 
-      // save
-      localStorage.setItem('braceletSize', selectedSize);
-      localStorage.setItem('braceletColor', colorKey);
-      localStorage.setItem('braceletPrice', price);
+    // Selection Logic
+    let selectedSizeState = null;
+    const radios = document.querySelectorAll('input[name="size"]');
+    const allLabels = document.querySelectorAll('.size-option'); 
+
+    radios.forEach(radio => {
+      radio.addEventListener('click', (e) => {
+        const parentLabel = radio.closest('label'); 
+        
+        // TOGGLE OFF
+        if (radio.value === selectedSizeState) {
+          e.preventDefault(); 
+          radio.checked = false; 
+          parentLabel.classList.remove('is-selected'); 
+          
+          priceDisplay.textContent = 'Select a size to see the price';
+          summary.classList.add('hidden');
+          selectedSizeState = null;
+          
+          localStorage.removeItem('braceletSize');
+          localStorage.removeItem('braceletPrice');
+          localStorage.removeItem('braceletColor'); 
+          return; 
+        }
+
+        // SELECT ON
+        allLabels.forEach(label => label.classList.remove('is-selected'));
+        parentLabel.classList.add('is-selected');
+
+        selectedSizeState = radio.value;
+        const selectedSize = radio.value;
+        const price = priceTable[colorKey][selectedSize];
+
+        // Update Text
+        priceDisplay.textContent = `₱${price.toFixed(2)} — ${selectedSize} Bracelet`;
+        summary.classList.remove('hidden');
+        colorText.textContent = colorKey.charAt(0).toUpperCase() + colorKey.slice(1);
+        sizeText.textContent = selectedSize;
+        priceText.textContent = price.toFixed(2);
+        
+        // SAVE TO STORAGE
+        localStorage.setItem('braceletSize', selectedSize);
+        localStorage.setItem('braceletColor', colorKey);
+        localStorage.setItem('braceletPrice', price);
+        localStorage.setItem('braceletType', braceletType);
+      });
+    });
+
+    // Prevent Proceeding if no size selected
+    document.querySelectorAll('.option-buttons a').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        if (!selectedSizeState) { 
+          e.preventDefault();
+          alert('Please select your bracelet size first to add it to your order.');
+          return;
+        }
+      });
     });
   });
-
-  // Prevent moving forward without size
-  document.querySelectorAll('.option-buttons a').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      // Check for the selected size using the stored state for reliability
-      if (!selectedSizeState) { 
-        e.preventDefault();
-        alert('Please select your bracelet size first.');
-        return;
-      }
-    });
-  });
-  </script>
+</script>
 </body>
 </html>

@@ -62,28 +62,22 @@ body{
 
 .bracelet-wrap {
   width: 100%;
-  max-width: 900px;
   padding: 24px;
   display: flex;
-  justify-content: center;   /* Center by default */
+  justify-content: center;
   align-items: center;
-  overflow-x: auto;
+  overflow-x: auto; /* Keeps scrolling capability if needed */
   overflow-y: hidden;
-  scroll-behavior: smooth;
   margin: 0 auto;
+  
+  /* 👇 HIDE THE SCROLLBAR (Clean Look) */
+  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  /* IE/Edge */
 }
 
-
-/* customize scrollbar */
+/* Hide scrollbar for Chrome/Safari/Opera */
 .bracelet-wrap::-webkit-scrollbar {
-  height: 8px;
-}
-.bracelet-wrap::-webkit-scrollbar-thumb {
-  background: var(--gold);
-  border-radius: 4px;
-}
-.bracelet-wrap::-webkit-scrollbar-thumb:hover {
-  background: #f1ce5d;
+  display: none;
 }
 
 .bracelet {
@@ -272,4 +266,40 @@ footer {
   opacity: 0.85;
   margin-top: 10px;
   max-width: 600px;
+}
+
+/* =========================================
+   ✨ LIVELY ANIMATIONS (Spotlight & Sparkle)
+   ========================================= */
+
+/* 1. Luxury Spotlight Background */
+/* This replaces the flat background with a rich radial gradient */
+.preview-center {
+  background: radial-gradient(circle at center, #5e1b1b 0%, #2b0f0f 70%);
+  box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+  transition: background 0.5s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 2. The Gold Shimmer Animation */
+@keyframes shimmerEffect {
+  0% { 
+    filter: brightness(1) drop-shadow(0 0 0 rgba(212, 175, 55, 0)); 
+    transform: scale(1);
+  }
+  50% { 
+    /* Flash bright and glow gold */
+    filter: brightness(1.4) drop-shadow(0 0 8px rgba(212, 175, 55, 0.6)); 
+    transform: scale(1.02);
+  }
+  100% { 
+    filter: brightness(1) drop-shadow(0 0 0 rgba(212, 175, 55, 0)); 
+    transform: scale(1);
+  }
+}
+
+/* Class applied by JS to trigger the animation */
+.slot.shine img {
+  animation: shimmerEffect 0.8s ease-in-out;
 }

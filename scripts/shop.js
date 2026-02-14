@@ -1,4 +1,4 @@
-// ✅ shop.js — Fixed & Enhanced Version (with plain links integration)
+// ✅ shop.js — Updated with MAX 20 LIMIT
 window.addEventListener('DOMContentLoaded', () => {
   // Scroll reset
   window.scrollTo(0, 0);
@@ -29,7 +29,9 @@ window.addEventListener('DOMContentLoaded', () => {
   // === Bracelet info ===
   const braceletColor = localStorage.getItem('braceletColor') || 'Gold';
   const braceletSize = localStorage.getItem('braceletSize') || 'Medium';
-  const charmLimit = { Small: 16, Medium: 17, Large: 18, 'Extra Large': 19, 'Extra Extra Large': 20 }[braceletSize];
+  // We keep this for display, but the HARD LIMIT is now 20
+  const charmLimitDisplay = { Small: 16, Medium: 17, Large: 18, 'Extra Large': 19, 'Extra Extra Large': 20 }[braceletSize];
+  const HARD_LIMIT = 20; // 🛑 The absolute maximum for XXL
 
   // === Size Guide Modal ===
   const sizeGuideBtn = document.getElementById('size-guide-btn');
@@ -50,17 +52,19 @@ window.addEventListener('DOMContentLoaded', () => {
     if (!type) return;
     document.getElementById('bracelet-type').textContent = braceletColor;
     document.getElementById('bracelet-size').textContent = braceletSize;
-    document.getElementById('max-charms').textContent = charmLimit;
+    document.getElementById('max-charms').textContent = charmLimitDisplay; 
     document.getElementById('selected-count').textContent = count;
     document.getElementById('total-price').textContent = total.toFixed(2);
+    
+    // Mobile summary updates
     const mobileCount = document.getElementById('mobile-count');
     const mobilePrice = document.getElementById('mobile-price');
     if (mobileCount && mobilePrice) {
-      mobileCount.textContent = `${count} / ${charmLimit} charms`;
+      mobileCount.textContent = `${count} / ${charmLimitDisplay} charms`; // Just visual
       mobilePrice.textContent = total.toFixed(2);
     }
   };
-  updateSummary();
+  
 
   // === Filter Dropdown ===
   if (filterDropdown)
@@ -91,6 +95,11 @@ window.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => cartBtn.classList.remove('animate'), 400);
   }
 
+  // Helper to count total items currently in cart
+  function getTotalItems() {
+    return cartItems.reduce((sum, item) => sum + (item.quantity || 0), 0);
+  }
+
   function updateCartUI() {
     cartItemsContainer.innerHTML = '';
     let total = 0, totalQty = 0;
@@ -102,6 +111,7 @@ window.addEventListener('DOMContentLoaded', () => {
       div.className = 'cart-item';
       div.innerHTML = `
         <img src="${item.img}" alt="charm">
+        <div class="item-name">${item.name}</div>
         <div class="item-quantity">
           <button class="qty-btn minus" data-idx="${idx}">−</button>
           <span class="qty-value">${item.quantity}</span>
@@ -122,11 +132,22 @@ window.addEventListener('DOMContentLoaded', () => {
   cartItemsContainer.addEventListener('click', e => {
     const idx = e.target.getAttribute('data-idx');
     if (idx === null) return;
-    if (e.target.classList.contains('plus')) cartItems[idx].quantity++;
+
+    if (e.target.classList.contains('plus')) {
+      // 🛑 LIMIT CHECK FOR PLUS BUTTON
+      if (getTotalItems() >= HARD_LIMIT) {
+        alert(`You have reached the maximum limit of ${HARD_LIMIT} links/charms (Size XXL).`);
+        return;
+      }
+      cartItems[idx].quantity++;
+    } 
     else if (e.target.classList.contains('minus')) {
       cartItems[idx].quantity--;
       if (cartItems[idx].quantity <= 0) cartItems.splice(idx, 1);
-    } else if (e.target.classList.contains('remove-btn')) cartItems.splice(idx, 1);
+    } 
+    else if (e.target.classList.contains('remove-btn')) {
+      cartItems.splice(idx, 1);
+    }
     updateCartUI();
     saveCart();
   });
@@ -139,15 +160,15 @@ window.addEventListener('DOMContentLoaded', () => {
     cartDrawer.classList.remove('open');
     cartOverlay.classList.remove('active');
   });
+  
   checkoutBtn.addEventListener('click', () => {
     saveCart();
-    const totalCharms = cartItems.reduce((sum, item) => sum + (item.quantity || 0), 0);
+    const totalCharms = getTotalItems();
 
     if (totalCharms < 5) {
       alert("Please select at least 5 charms/links before proceeding to checkout.");
       return;
     }
-    
     window.location.href = 'preview.html';
   });
 
@@ -175,6 +196,12 @@ window.addEventListener('DOMContentLoaded', () => {
       `;
       // Add to cart on click
       card.addEventListener('click', () => {
+        // 🛑 LIMIT CHECK FOR PLAIN LINKS
+        if (getTotalItems() >= HARD_LIMIT) {
+          alert(`Maximum limit reached! You can only add up to ${HARD_LIMIT} Links/Charms (Size XXL).`);
+          return;
+        }
+
         const existing = cartItems.find(c => c.name === link.name && c.img === link.img);
         if (existing) existing.quantity++;
         else cartItems.push({ ...link, quantity: 1 });
@@ -199,7 +226,7 @@ window.addEventListener('DOMContentLoaded', () => {
         let imgPath = '';
         let grid = null;
 
-        // (Same mapping logic retained)
+        // (Grid mapping logic...)
         if (i <= 67) { imgPath = `assets/charms/gold charms p65/${image}`; grid = grids.gold; }
         else if (i <= 77) { imgPath = `assets/charms/silver with black charms/${image}`; grid = grids.silver; }
         else if (i <= 92) { imgPath = `assets/charms/pink series charms/${image}`; grid = grids.pink; }
@@ -225,6 +252,12 @@ window.addEventListener('DOMContentLoaded', () => {
         `;
 
         charm.addEventListener('click', () => {
+          // 🛑 LIMIT CHECK FOR CHARMS
+          if (getTotalItems() >= HARD_LIMIT) {
+            alert(`Maximum limit reached! You can only add up to ${HARD_LIMIT} items (Size XXL).`);
+            return;
+          }
+
           const p = parseFloat(price) || 0;
           const existing = cartItems.find(c => c.name === name && c.img === imgPath);
           if (existing) existing.quantity++;
@@ -237,7 +270,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if (grid) grid.appendChild(charm);
       });
 
-      // Loader animation only if gsap is available
+      // Loader animation
       if (window.gsap) {
         gsap.to(loader, { opacity: 0, duration: 0.5, onComplete: () => loader.remove() });
         gsap.to(shopContent, { opacity: 1, duration: 0.7 });
@@ -245,7 +278,6 @@ window.addEventListener('DOMContentLoaded', () => {
         loader.remove();
         shopContent.style.opacity = 1;
       }
-
       updateCartUI();
     })
     .catch(err => {

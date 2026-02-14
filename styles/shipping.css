@@ -323,3 +323,31 @@ footer {
 .remove-btn:hover {
   color: #e53935;        /* brighter red hover */
 }
+
+/* =========================================
+   SCROLLABLE ORDER LIST FIX
+   ========================================= */
+#order-items {
+  max-height: 350px;       /* 🛑 Limits the height of the list */
+  overflow-y: auto;        /* ↕️ Adds a scrollbar if items exceed height */
+  padding-right: 8px;      /* ↔️ Space so text doesn't hit the scrollbar */
+  margin-bottom: 15px;     /* Space before the Total section */
+  border-bottom: 1px solid #eee; /* Divider line */
+  padding-bottom: 10px;
+}
+
+/* Custom Scrollbar Styling (Gold Theme) */
+#order-items::-webkit-scrollbar {
+  width: 6px;
+}
+#order-items::-webkit-scrollbar-track {
+  background: #f5f5f5;
+  border-radius: 3px;
+}
+#order-items::-webkit-scrollbar-thumb {
+  background-color: #bfa76f; /* Gold scrollbar */
+  border-radius: 3px;
+}
+#order-items::-webkit-scrollbar-thumb:hover {
+  background-color: #d4af37; /* Darker gold on hover */
+}

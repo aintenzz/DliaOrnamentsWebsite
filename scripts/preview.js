@@ -36,6 +36,34 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- 🧮 Auto detect bracelet size based on total selected items ---
   const totalSelected = cartItemsRaw.reduce((sum, item) => sum + (item.quantity || 0), 0);
 
+// ==========================================
+  // ✨ GOLDEN WAVE ANIMATION (Left-to-Right)
+  // ==========================================
+  
+  function triggerShimmerWave() {
+    const allSlots = document.querySelectorAll('.slot');
+    
+    // Loop through every slot and trigger the shine with a delay
+    allSlots.forEach((slot, index) => {
+      setTimeout(() => {
+        // Add the shine class
+        slot.classList.add('shine');
+        
+        // Remove it after the animation finishes (0.6s) so it can run again later
+        setTimeout(() => {
+          slot.classList.remove('shine');
+        }, 600); 
+        
+      }, index * 100); // ⏱️ 100ms delay per item = creates the "Wave" movement
+    });
+  }
+
+  // Run the wave immediately on load
+  setTimeout(triggerShimmerWave, 1000);
+
+  // Then repeat the wave every 5 seconds
+  setInterval(triggerShimmerWave, 5000);
+
   let detectedSize = '';
   if (totalSelected < 16 && totalSelected > 0) detectedSize = 'Below Small';
   else if (totalSelected === 16) detectedSize = 'Small';
@@ -188,27 +216,41 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // === Export PNG ===
+  // === Export PNG (Updated for Tighter Overlap) ===
   async function exportAsImage() {
     const canvas = document.getElementById('export-canvas');
     const ctx = canvas.getContext('2d');
-    canvas.width = Math.max(800, totalSlots * 80);
+    
+    // We calculate width dynamically
+    // slotW is the "base" width of a slot before overlap
+    let slotW = 80; 
+    
+    // 🔴 FIX: INCREASED OVERLAP
+    // Previous value was 22. We increased it to 36 to make them "stick" together.
+    // If >20 items, we make it even tighter (40) to fit nicely.
+    let overlap = totalSelected > 20 ? 40 : 30; 
+
+    // Calculate total canvas width based on tighter spacing
+    const totalWidth = slotW + (totalSlots - 1) * (slotW - overlap);
+    
+    canvas.width = Math.max(800, totalWidth + 100); // Add some padding
     canvas.height = 220;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // 🧩 Adjust spacing only if >20 charms
-    let slotW = 80;
-    let overlap = totalSelected > 20 ? 26 : 22;
-
-    const totalWidth = slotW + (totalSlots - 1) * (slotW - overlap);
     let startX = (canvas.width - totalWidth) / 2;
     const centerY = canvas.height / 2;
 
     for (let i = 0; i < slots.length; i++) {
       const s = slots[i];
+      // We draw the image at 72px wide.
+      // With an overlap of 36, the "step" is 80 - 36 = 44px.
+      // 72px image width - 44px step = 28px of visual overlap (sticks nicely!)
       await drawImageToCanvas(ctx, s.src, startX, centerY - 36, 72, 72);
+      
       startX += (slotW - overlap);
     }
 
+    // --- Draw the Label at the bottom ---
     const labelText = `D'lia Ornaments PH — ${detectedSize}, ${totalSelected} Links/Charms`;
 
     ctx.font = 'bold 14px Poppins, sans-serif';
@@ -222,17 +264,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const labelX = (canvas.width - labelWidth) / 2;
     const labelY = canvas.height - 40;
 
+    // Background box for text
     ctx.fillStyle = '#2b0f0f';
     ctx.globalAlpha = 0.85;
     ctx.fillRect(labelX, labelY, labelWidth, labelHeight);
 
+    // Text color
     ctx.globalAlpha = 1;
     ctx.fillStyle = '#d4af37';
-    ctx.fillText(labelText, canvas.width / 2, canvas.height - 20);
+    ctx.fillText(labelText, canvas.width / 2, canvas.height - 25);
 
+    // Save logic
     const url = canvas.toDataURL('image/png');
     localStorage.setItem('braceletPreviewImage', url);
 
+    // Auto-download for user
     const a = document.createElement('a');
     a.href = url;
     a.download = `dlia-bracelet-${braceletColor}-${detectedSize}.png`;
@@ -257,17 +303,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // === Event bindings ===
   saveBtn.addEventListener('click', exportAsImage);
   resetBtn.addEventListener('click', () => { if (confirm('Reset preview?')) resetToPlain(); });
-  saveDesignBtn.addEventListener('click', () => {
-    const design = { color: braceletColor, size: detectedSize, slots };
-    const blob = new Blob([JSON.stringify(design, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `dlia-design-${braceletColor}-${detectedSize}.json`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  });
 
   // === Initialize ===
   renderCharmsSidebar();
