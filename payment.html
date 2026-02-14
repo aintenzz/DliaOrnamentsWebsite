@@ -7,12 +7,14 @@
   <link rel="stylesheet" href="styles/payment.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
   <link rel="icon" href="assets/home/logo.png" />
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script type="text/javascript">
     (function() {
-      // REPLACE 'YOUR_PUBLIC_KEY' WITH YOUR ACTUAL PUBLIC KEY FROM EMAILJS
-      emailjs.init("9o4gmWYwJqh37ZBD4");
+      // REPLACE WITH YOUR ACTUAL PUBLIC KEY
+      emailjs.init("9o4gmWYwJqh37ZBD4"); 
     })();
   </script>
 </head>
@@ -80,6 +82,7 @@
       <aside class="right-section">
         <h3>Your Order</h3>
         <div id="order-items"></div>
+        
         <div class="order-summary">
           <div>Subtotal: <span id="subtotal">₱0.00</span></div>
           <div>Shipping: <span id="shipping-fee">May vary</span></div>
@@ -89,11 +92,8 @@
       </aside>
     </div>
 
-    <!-- === Bracelet Preview Section (same as shipping.html) === -->
     <section class="bracelet-preview-section">
-      <h2 class="bracelet-preview-section">
-        Your Customized Bracelet Preview
-      </h2>
+      <h2 class="bracelet-preview-section">Your Customized Bracelet Preview</h2>
       <div class="bracelet-preview-wrapper" id="bracelet-preview-wrapper" style="display:none;">
         <img id="bracelet-preview-img" alt="Bracelet Preview">
       </div>
@@ -104,22 +104,21 @@
     <p>© 2025 D'lia Ornaments PH | All Rights Reserved.</p>
   </footer>
 
-  <!-- Receipt modal -->
   <div id="receipt-modal" class="modal-overlay" style="display:none;">
     <div class="modal-content receipt-modal"></div>
   </div>
 
-  <script src="scripts/payment.js"></script>
-
   <script>
   document.addEventListener("DOMContentLoaded", () => {
-    // --- 1. Load Info (Existing Code) ---
+    const fmt = n => "₱" + n.toFixed(2);
+
+    // --- 1. Load Info ---
     const info = JSON.parse(localStorage.getItem("checkoutInfo") || "{}");
     document.getElementById("contact-email").textContent = info.email || "your@email.com";
     document.getElementById("shipping-address").textContent =
-      `${info.address || ""}, ${info.postal || ""} ${info.city || ""}, ${info.region || ""}, ${info.country || ""}`;
+      `${info.address || ""}, ${info.postal || ""} ${info.city || ""}, ${info.region || ""}`;
 
-    // --- 2. Bracelet Preview Logic (Existing Code) ---
+    // --- 2. Bracelet Preview Logic ---
     const previewUrl = localStorage.getItem("braceletPreviewImage");
     const wrapper = document.getElementById("bracelet-preview-wrapper");
     const img = document.getElementById("bracelet-preview-img");
@@ -128,10 +127,7 @@
       wrapper.style.display = "block";
     }
 
-    // --- 3. Receipt Builder Helper (Existing Code) ---
-    const modal = document.getElementById("receipt-modal");
-    const fmt = n => "₱" + n.toFixed(2);
-
+    // --- 3. Build Receipt Data ---
     function buildReceipt() {
       const cart = JSON.parse(localStorage.getItem("cartItems") || "[]");
       const braceletColor = localStorage.getItem("braceletColor");
@@ -145,7 +141,6 @@
       const items = [];
       let subtotal = 0;
 
-      // Calculate Bracelet Price
       if (braceletColor) {
         const prices = {
           silver: { Small: 240, Medium: 255, Large: 270, "Extra Large": 285, "Extra Extra Large": 300 },
@@ -158,76 +153,166 @@
         else if (rc.includes("mixed")) key = "mixed";
         const bprice = prices[key]?.[braceletSize] || 0;
         
-        items.push({ name: `${braceletColor.charAt(0).toUpperCase() + braceletColor.slice(1)} Bracelet (${braceletSize})`, qty: 1, price: bprice });
+        items.push({ 
+            name: `${braceletColor.charAt(0).toUpperCase() + braceletColor.slice(1)} Bracelet (${braceletSize})`, 
+            qty: 1, 
+            price: bprice,
+            img: `assets/bracelets/${key}.png`
+        });
         subtotal += bprice;
       }
 
-      // Calculate Charms Price
       cart.forEach(i => {
         const qty = i.quantity || 1;
         const price = (i.price || 0) * qty;
-        items.push({ name: i.name, qty, price });
+        items.push({ name: i.name, qty, price, img: i.img });
         subtotal += price;
       });
 
       return { info, items, total: subtotal, datetime: manila };
     }
 
-    // --- 4. Show Receipt Modal (Updated Layout) ---
+    // --- 4. RENDER SIDEBAR ---
+    const sidebarData = buildReceipt();
+    const orderItemsContainer = document.getElementById('order-items');
+    
+    orderItemsContainer.innerHTML = sidebarData.items.map(item => `
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; font-size: 0.9rem;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="width: 50px; height: 50px; background: #eee; border-radius: 8px; overflow: hidden; border: 1px solid #ddd; flex-shrink:0;">
+                    <img src="${item.img}" style="width:100%; height:100%; object-fit: cover;">
+                </div>
+                <div>
+                    <div style="font-weight: 500; color: #333;">${item.name}</div>
+                    <div style="font-size: 0.8em; color: #888;">Qty: ${item.qty}</div>
+                </div>
+            </div>
+            <div style="font-weight: 600; color: #2b0f0f;">${fmt(item.price)}</div>
+        </div>
+    `).join('');
+
+    document.getElementById('subtotal').textContent = fmt(sidebarData.total);
+    document.getElementById('total').textContent = fmt(sidebarData.total);
+
+    // --- 5. Show Receipt Modal ---
+    const modal = document.getElementById("receipt-modal");
+
     function showReceiptModal() {
-      const r = buildReceipt();
+      const r = buildReceipt(); 
       modal.innerHTML = `
-        <div class="modal-content receipt-modal" style="width: 90%; max-width: 420px; text-align: left;">
-          <header class="receipt-header" style="text-align: center;">
-            <h2>🎉 Order Confirmed</h2>
-            <div class="receipt-sub">Receipt / Order Summary</div>
-          </header>
+        <div class="modal-content receipt-modal" style="width: 90%; max-width: 440px; text-align: left; max-height: 90vh; overflow: hidden; display: flex; flex-direction: column; background: #fff; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
           
-          <section class="receipt-body" style="padding: 0 10px;">
-            <div style="margin-bottom: 15px; font-size: 0.9rem; color: #444;">
-              <p style="margin: 4px 0;"><strong>Email:</strong> ${r.info.email || '—'}</p>
-              <p style="margin: 4px 0;"><strong>Address:</strong> ${r.info.address || ''}</p>
-              <p style="margin: 4px 0;"><strong>Date:</strong> ${r.datetime}</p>
-            </div>
-            
-            <hr style="border: 0; border-top: 1px dashed #ccc; margin: 15px 0;"/>
-
-            <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
-              ${r.items.map(it => `
+          <div id="capture-receipt" style="background: white; padding: 30px; color: #2b0f0f; font-family: 'Poppins', sans-serif;">
+              <header style="text-align: center; margin-bottom: 25px;">
+                <h2 style="margin: 0; color: #690d0d; font-size: 1.5rem; font-weight: 700;">🎉 Order Confirmed</h2>
+                <div style="font-size: 0.85rem; color: #888; margin-top: 5px;">D’lia Ornaments PH — Official Receipt</div>
+              </header>
+              
+              <table style="width: 100%; font-size: 0.9rem; color: #444; background: #fdfdfd; border: 1px solid #eee; border-radius: 8px; border-collapse: separate; border-spacing: 10px;">
                 <tr>
-                  <td style="padding: 4px 0; vertical-align: top; color: #333;">
-                    ${it.name} <span style="color: #777; font-size: 0.85em;">×${it.qty}</span>
-                  </td>
-                  <td style="padding: 4px 0; vertical-align: top; text-align: right; font-weight: 500; color: #000;">
-                    ${fmt(it.price)}
-                  </td>
+                  <td style="font-weight: 700; width: 90px; vertical-align: top;">Email:</td>
+                  <td style="color: #555; word-break: break-all;">${r.info.email || '—'}</td>
                 </tr>
-              `).join('')}
-            </table>
+                <tr>
+                  <td style="font-weight: 700; vertical-align: top;">Address:</td>
+                  <td style="color: #555; line-height: 1.4;">${r.info.address || ''}</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: 700; vertical-align: top;">Date:</td>
+                  <td style="color: #555;">${r.datetime}</td>
+                </tr>
+              </table>
+              
+              <hr style="border: 0; border-top: 1px dashed #ccc; margin: 20px 0;"/>
 
-            <hr style="border: 0; border-top: 1px dashed #ccc; margin: 15px 0;"/>
+              <div id="receipt-items-list" style="max-height: 250px; overflow-y: auto; margin-bottom: 15px;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+                  ${r.items.map(it => `
+                    <tr>
+                      <td style="padding: 10px 0; vertical-align: middle;">
+                        <div style="display:flex; align-items:center; gap:12px;">
+                          <img src="${it.img}" style="width:45px; height:45px; border-radius:6px; border:1px solid #eee; background:#f9f9f9; object-fit:contain;">
+                          <div>
+                             <div style="font-weight: 600; color:#333;">${it.name}</div>
+                             <div style="font-size:0.85em; color:#777;">Quantity: ${it.qty}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td style="padding: 10px 0; vertical-align: middle; text-align: right; font-weight: 700; color: #000; width: 100px;">
+                        ${fmt(it.price)}
+                      </td>
+                    </tr>
+                  `).join('')}
+                </table>
+              </div>
 
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-              <span style="font-weight: 600; font-size: 1.1rem;">Total</span>
-              <span style="font-weight: 700; font-size: 1.2rem; color: #2b0f0f;">${fmt(r.total)}</span>
-            </div>
-            <p style="text-align: right; font-size: 0.8rem; color: #666; margin: 0;">(shipping fee varies)</p>
-            
-            <div style="margin-top: 1.5rem; text-align: center; background: #f9f9f9; padding: 15px; border-radius: 8px;">
-              <p style="margin-bottom: 8px; font-weight: 500; color: #d4af37;">Next Steps:</p>
-              <p style="font-size: 0.9rem; color: #555; margin: 0;">
-                Message us on social media with a screenshot of this receipt, your bracelet preview, and proof of payment.
+              <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 2px solid #690d0d;">
+                <span style="font-weight: 600; font-size: 1.1rem; color: #690d0d;">Total Amount</span>
+                <span style="font-weight: 800; font-size: 1.4rem; color: #2b0f0f;">${fmt(r.total)}</span>
+              </div>
+          </div>
+
+          <section style="padding: 0 25px 25px; flex-shrink: 0; background: #fff;">
+            <button id="download-receipt-btn" class="confirm-btn" style="width: 100%; background: #444; margin-bottom: 20px; font-weight: 600; padding: 12px; border: none; border-radius: 6px; color: white; cursor: pointer;">
+              <i class="fas fa-download"></i> Download Receipt Image
+            </button>
+
+            <div style="background: #fff9f0; padding: 15px; border-radius: 10px; border: 1px solid #faead1; text-align: center;">
+              <p style="margin: 0 0 12px; font-weight: 700; color: #d4af37; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">Next Steps:</p>
+              <p style="font-size: 0.85rem; color: #555; margin-bottom: 15px; line-height: 1.4;">
+                Message us on our social media with <b>this receipt</b>, your <b>bracelet preview</b>, and <b>proof of payment</b>.
               </p>
+              
+              <div style="display: flex; justify-content: center; gap: 25px; font-size: 1.6rem;">
+                <a href="https://www.facebook.com/profile.php?id=100086048326178" target="_blank" style="color: #1877f2;"><i class="fab fa-facebook"></i></a>
+                <a href="https://instagram.com/dliaornamentsph" target="_blank" style="color: #e4405f;"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@dliaornamentsph" target="_blank" style="color: #000;"><i class="fab fa-tiktok"></i></a>
+                <a href="mailto:dliaornamentsph@gmail.com" style="color: #ea4335;"><i class="fas fa-envelope"></i></a>
+              </div>
             </div>
 
-            <button id="close-modal" class="confirm-btn" style="margin-top: 1.5rem; width: 100%;">Close & Return Home</button>
+            <button id="close-modal" class="confirm-btn" style="margin-top: 20px; width: 100%; border-radius: 6px; cursor: pointer;">Close & Return Home</button>
           </section>
         </div>
       `;
       
       modal.style.display = 'flex';
-      modal.style.justifyContent = 'center';
-      modal.style.alignItems = 'center';
+
+      modal.querySelector("#download-receipt-btn").addEventListener("click", async () => {
+        const btn = modal.querySelector("#download-receipt-btn");
+        const list = modal.querySelector("#receipt-items-list");
+        const captureArea = modal.querySelector("#capture-receipt");
+        
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+        
+        const originalMaxHeight = list.style.maxHeight;
+        const originalOverflow = list.style.overflowY;
+        list.style.maxHeight = "none";
+        list.style.overflowY = "visible";
+        
+        try {
+            const canvas = await html2canvas(captureArea, {
+                scale: 3, 
+                useCORS: true,
+                backgroundColor: "#ffffff",
+                logging: false,
+                onclone: (clonedDoc) => {
+                    clonedDoc.getElementById("receipt-items-list").style.maxHeight = "none";
+                }
+            });
+            
+            const link = document.createElement('a');
+            link.download = `Dlia-Receipt-${Date.now()}.png`;
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        } catch (e) {
+            alert("Download failed. Please take a screenshot.");
+        } finally {
+            list.style.maxHeight = originalMaxHeight;
+            list.style.overflowY = originalOverflow;
+            btn.innerHTML = '<i class="fas fa-download"></i> Download Receipt Image';
+        }
+      });
 
       modal.querySelector("#close-modal").addEventListener("click", () => {
         localStorage.clear();
@@ -235,65 +320,63 @@
       });
     }
 
-    // --- 5. HANDLE SUBMIT & SEND EMAIL ---
-    const paymentForm = document.getElementById('payment-form');
+    // --- 6. Form Submission (Consolidated Logic) ---
+    const paymentForm = document.getElementById("payment-form");
     
-    paymentForm.addEventListener('submit', (e) => {
+    paymentForm.addEventListener("submit", (e) => {
       e.preventDefault();
       
       const confirmBtn = paymentForm.querySelector('.confirm-btn');
       const originalText = confirmBtn.textContent;
-      confirmBtn.textContent = "Processing...";
+      confirmBtn.textContent = "Processing Order...";
       confirmBtn.disabled = true;
 
-      // Get receipt data
-      const r = buildReceipt();
+      const receipt = buildReceipt();
       const paymentMethod = document.querySelector("input[name='payment']:checked").value;
 
-      // Create a clean list string for the email
-      // NEW CODE: Create HTML Table Rows
-      const orderSummaryString = r.items
-        .map(item => `
+      const orderSummaryString = receipt.items.map(item => `
           <tr>
             <td style="padding: 8px 0; border-bottom: 1px solid #eee; color: #444;">
               ${item.name} <span style="color: #999; font-size: 12px;">(x${item.qty})</span>
             </td>
             <td style="padding: 8px 0; border-bottom: 1px solid #eee; text-align: right; color: #2b0f0f; font-weight: 500;">
-              ₱${item.price.toFixed(2)}
+              ${fmt(item.price)}
             </td>
           </tr>
-        `)
-        .join('');
+      `).join('');
 
-      // Prepare Email Parameters (Must match variables in your EmailJS template)
       const templateParams = {
-        customer_email: r.info.email,
-        phone_number: r.info.phone,
-        customer_address: `${r.info.address}, ${r.info.city}, ${r.info.region}`,
+        customer_email: receipt.info.email,
+        phone_number: receipt.info.phone,
+        customer_address: `${receipt.info.address}, ${receipt.info.city}`,
         payment_method: paymentMethod,
         order_summary: orderSummaryString,
-        total_price: fmt(r.total)
+        total_price: fmt(receipt.total)
       };
 
-      // Send Email
-      // REPLACE 'YOUR_SERVICE_ID' and 'YOUR_TEMPLATE_ID' with actual IDs
-      emailjs.send('service_xx3u32v', 'template_komovyf', templateParams)
-        .then(function() {
-          // Success: Show the Receipt Modal
-          confirmBtn.textContent = originalText;
-          confirmBtn.disabled = false;
-          showReceiptModal(); 
-        }, function(error) {
-          // Error handling
-          console.error('FAILED...', error);
-          alert('Failed to send order email. Please verify your connection.');
-          confirmBtn.textContent = originalText;
-          confirmBtn.disabled = false;
-          // You might still want to show the receipt modal even if email fails:
-          showReceiptModal();
-        });
+      // ⚠️ Use your actual IDs from EmailJS
+      const serviceID = 'service_xx3u32';  //v       
+      const merchantTemplate = 'template_merchan'; //t
+      const customerTemplate = 'template_custome'; //r
+
+      Promise.all([
+        emailjs.send(serviceID, merchantTemplate, templateParams),
+        emailjs.send(serviceID, customerTemplate, templateParams)
+      ])
+      .then(() => {
+        confirmBtn.textContent = originalText;
+        confirmBtn.disabled = false;
+        showReceiptModal(); 
+      })
+      .catch(err => {
+        console.error('Email failed:', err);
+        alert('Order processed, but email confirmation failed.');
+        confirmBtn.textContent = originalText;
+        confirmBtn.disabled = false;
+        showReceiptModal(); 
+      });
     });
   });
-</script>
+  </script>
 </body>
 </html>
